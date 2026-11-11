@@ -6,8 +6,9 @@
   <title>DENTAL ATLAS — Цифровая клиника ДантистЪ (Gate 2 Wireframe)</title>
   <meta name="description" content="Интерактивная архитектура цифровой клиники ДантистЪ. Единая навигационная система: услуги, врачи, подтверждённая запись.">
   <link rel="stylesheet" href="assets/css/atlas-wireframe.css">
+  <link rel="stylesheet" href="assets/css/atlas-themes.css">
 </head>
-<body>
+<body class="theme-editorial">
 
   <!-- Top System Bar -->
   <header class="atlas-topbar" role="banner">
@@ -41,6 +42,16 @@
         </button>
         <button type="button" class="pathway-btn" data-pathway="booking" role="tab" aria-selected="false">
           <span>Запись</span>
+        </button>
+      </nav>
+
+      <!-- GATE 3: Art Direction Switcher (Editorial vs Clinical) -->
+      <nav class="theme-switcher-bar" aria-label="Выбор художественного направления">
+        <button type="button" class="theme-switch-btn is-active" id="themeBtnEditorial" data-theme-val="editorial">
+          <span>🏛 Редакционный</span>
+        </button>
+        <button type="button" class="theme-switch-btn" id="themeBtnClinical" data-theme-val="clinical">
+          <span>🔬 Клинический</span>
         </button>
       </nav>
 
