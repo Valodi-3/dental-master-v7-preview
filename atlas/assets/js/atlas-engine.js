@@ -1,13 +1,14 @@
 /**
- * DENTAL ATLAS — CLIENT ENGINE & STATE MACHINE
- * Implements:
- * - 3 User Pathways: Services / Doctors / Booking
- * - Branch switching: Ispanskie (Primary) <-> Prokshino (Secondary)
- * - Deep linking & Browser History (popstate, pushState)
- * - Service Navigator & Dynamic Stage rendering
- * - Doctor Directory & Contextual Dossier transitions
- * - Non-disruptive Verified Booking Gateway
- * - Zero unverified assumptions.
+ * DENTAL ATLAS — CLIENT ENGINE & STATE MACHINE (v1.1.0)
+ * Fixed per Independent Revisor Audit:
+ * - REV-001: Doctor deep linking (?view=doctors&id=...) & card highlight/auto-scroll
+ * - REV-002: Clickable procedure chips in doctor cards with transition to ServiceScene
+ * - REV-003: replaceState URL normalization on invalid parameters
+ * - REV-004: Rendering verified education and certificates from SSOT
+ * - REV-005: WAI-ARIA Focus Trap in booking modal & focus return
+ * - REV-006: Mobile float action bar auto-hidden under modal
+ * - REV-007: Mobile touch targets >= 42px
+ * - REV-008: ARIA role="tab" and aria-selected in tablists
  */
 
 (function () {
@@ -28,7 +29,9 @@
     docSlug: null,
     searchQuery: '',
     modalOpen: false,
-    modalContext: null
+    modalContext: null,
+    needsUrlNormalize: false,
+    lastActiveElement: null
   };
 
   // DOM Elements
@@ -81,11 +84,12 @@
     modalCopyFeedback: document.getElementById('modalCopyFeedback'),
 
     // Mobile float
+    mobileActionFloat: document.querySelector('.mobile-action-float'),
     mobileFloatCall: document.getElementById('mobileFloatCall'),
     mobileFloatBook: document.getElementById('mobileFloatBook')
   };
 
-  // 1. URL State Parsing
+  // 1. URL State Parsing (with invalid param detection for REV-003)
   function parseUrlState() {
     const params = new URLSearchParams(window.location.search);
     const branchParam = params.get('branch');
@@ -93,41 +97,87 @@
     const catParam = params.get('cat');
     const idParam = params.get('id');
 
-    if (branchParam && data.branches[branchParam]) {
-      state.branch = branchParam;
+    let invalid = false;
+
+    // Branch
+    if (branchParam) {
+      if (data.branches[branchParam]) {
+        state.branch = branchParam;
+      } else {
+        state.branch = 'ispanskie';
+        invalid = true;
+      }
     } else {
       state.branch = 'ispanskie';
     }
 
-    if (viewParam && ['services', 'doctors', 'booking'].includes(viewParam)) {
-      state.pathway = viewParam;
+    // View / Pathway
+    if (viewParam) {
+      if (['services', 'doctors', 'booking'].includes(viewParam)) {
+        state.pathway = viewParam;
+      } else {
+        state.pathway = 'services';
+        invalid = true;
+      }
     } else {
       state.pathway = 'services';
     }
 
-    if (catParam && data.categories.some(c => c.id === catParam)) {
-      state.catId = catParam;
+    // Category
+    if (catParam) {
+      if (data.categories.some(c => c.id === catParam)) {
+        state.catId = catParam;
+      } else {
+        state.catId = data.categories[0].id;
+        invalid = true;
+      }
     } else {
       state.catId = data.categories[0].id;
     }
 
-    if (idParam && data.procedures.some(p => p.id === idParam)) {
-      state.procId = idParam;
+    // ID (procedure or doctor depending on pathway)
+    if (idParam) {
+      if (state.pathway === 'doctors') {
+        if (data.doctors.some(d => d.slug === idParam)) {
+          state.docSlug = idParam;
+        } else {
+          state.docSlug = null;
+          invalid = true;
+        }
+      } else {
+        if (data.procedures.some(p => p.id === idParam)) {
+          state.procId = idParam;
+        } else {
+          const firstProcInCat = data.procedures.find(p => p.catId === state.catId);
+          state.procId = firstProcInCat ? firstProcInCat.id : data.procedures[0].id;
+          invalid = true;
+        }
+      }
     } else {
-      const firstProcInCat = data.procedures.find(p => p.catId === state.catId);
-      state.procId = firstProcInCat ? firstProcInCat.id : data.procedures[0].id;
+      if (state.pathway === 'doctors') {
+        state.docSlug = null;
+      } else {
+        const firstProcInCat = data.procedures.find(p => p.catId === state.catId);
+        state.procId = firstProcInCat ? firstProcInCat.id : data.procedures[0].id;
+      }
     }
+
+    state.needsUrlNormalize = invalid;
   }
 
-  // 2. URL State Sync (pushState)
+  // 2. URL State Sync (pushState / replaceState, handles REV-001 & REV-003)
   function syncUrl(replace = false) {
     const params = new URLSearchParams();
     params.set('branch', state.branch);
     params.set('view', state.pathway);
+
     if (state.pathway === 'services') {
       params.set('cat', state.catId);
       params.set('id', state.procId);
+    } else if (state.pathway === 'doctors' && state.docSlug) {
+      params.set('id', state.docSlug);
     }
+
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     if (replace) {
       window.history.replaceState(null, '', newUrl);
@@ -182,6 +232,10 @@
         if (proc) crumbHtml += ` <span class="context-crumb-divider">/</span> <strong class="context-crumb-item is-current">${proc.name}</strong>`;
       } else if (state.pathway === 'doctors') {
         crumbHtml += ` <span class="context-crumb-divider">/</span> <strong class="context-crumb-item is-current">Специалисты клиники</strong>`;
+        if (state.docSlug) {
+          const doc = data.doctors.find(d => d.slug === state.docSlug);
+          if (doc) crumbHtml += ` <span class="context-crumb-divider">/</span> <strong class="context-crumb-item is-current">${doc.name}</strong>`;
+        }
       } else if (state.pathway === 'booking') {
         crumbHtml += ` <span class="context-crumb-divider">/</span> <strong class="context-crumb-item is-current">Шлюз записи на приём</strong>`;
       }
@@ -193,7 +247,7 @@
     }
   }
 
-  // 4. Render Services View (Clinical Canvas)
+  // 4. Render Services View (with ARIA tab & aria-selected for REV-008)
   function renderServices() {
     // Categories Nav
     if (el.categoryList) {
@@ -202,7 +256,10 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = `nav-cat-btn ${cat.id === state.catId ? 'is-active' : ''}`;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', String(cat.id === state.catId));
         btn.innerHTML = `<span>${cat.icon}</span> <span>${cat.name}</span>`;
+
         btn.addEventListener('click', () => {
           state.catId = cat.id;
           const firstProc = data.procedures.find(p => p.catId === cat.id);
@@ -229,9 +286,12 @@
         el.procedureList.innerHTML = '<div style="padding: 16px; font-size: 0.8rem; color: var(--wire-ink-muted);">По вашему запросу процедур не найдено. Позвоните в клинику для консультации.</div>';
       } else {
         filtered.forEach(proc => {
+          const isAct = proc.id === state.procId;
           const btn = document.createElement('button');
           btn.type = 'button';
-          btn.className = `nav-proc-btn ${proc.id === state.procId ? 'is-active' : ''}`;
+          btn.className = `nav-proc-btn ${isAct ? 'is-active' : ''}`;
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-selected', String(isAct));
           
           const price = proc.prices[state.branch] || Object.values(proc.prices)[0] || 'По запросу';
 
@@ -249,8 +309,12 @@
             renderHeaderAndRibbon();
             renderStage();
             // Update active state in list
-            el.procedureList.querySelectorAll('.nav-proc-btn').forEach(b => b.classList.remove('is-active'));
+            el.procedureList.querySelectorAll('.nav-proc-btn').forEach(b => {
+              b.classList.remove('is-active');
+              b.setAttribute('aria-selected', 'false');
+            });
             btn.classList.add('is-active');
+            btn.setAttribute('aria-selected', 'true');
           });
 
           el.procedureList.appendChild(btn);
@@ -322,8 +386,8 @@
 
     // Book button action
     if (el.stageBookBtn) {
-      el.stageBookBtn.onclick = () => {
-        openBookingModal(`Процедура: ${proc.name} (${price})`);
+      el.stageBookBtn.onclick = (e) => {
+        openBookingModal(`Процедура: ${proc.name} (${price})`, e.currentTarget);
       };
     }
 
@@ -341,43 +405,113 @@
     }
   }
 
-  // 6. Render Doctors Directory
+  // 6. Render Doctors Directory (REV-001, REV-002, REV-004)
   function renderDoctors() {
     if (!el.doctorsGrid) return;
     el.doctorsGrid.innerHTML = '';
 
-    // Filter doctors affiliated with the current branch
+    // Filter doctors affiliated with current branch
     const branchDoctors = data.doctors.filter(d => d.branches.includes(state.branch));
 
+    let selectedDocElement = null;
+
     branchDoctors.forEach(doc => {
+      const isSelected = state.docSlug === doc.slug;
       const card = document.createElement('article');
-      card.className = 'doctor-card';
+      card.className = `doctor-card ${isSelected ? 'is-selected-doctor' : ''}`;
+      card.id = `doctor-${doc.slug}`;
+
+      // Find procedures performed by this doctor in this branch (REV-002)
+      const docProcs = data.procedures.filter(p => p.doctorSlugs && p.doctorSlugs.includes(doc.slug));
+
+      let procsHtml = '';
+      if (docProcs.length > 0) {
+        procsHtml = `
+          <div style="margin-top: 10px;">
+            <strong style="font-size: 0.76rem; color: var(--wire-ink-muted); text-transform: uppercase; letter-spacing: 0.04em;">Выполняемые процедуры:</strong>
+            <div class="doctor-proc-chips">
+              ${docProcs.map(p => {
+                const price = p.prices[state.branch] || Object.values(p.prices)[0] || '';
+                return `
+                  <button type="button" class="doctor-proc-chip" data-proc-link="${p.id}" data-cat-link="${p.catId}" aria-label="Перейти к услуге ${p.name}">
+                    <span>${p.name}</span> · <strong>${price}</strong> →
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Certs list (REV-004)
+      let certsHtml = '';
+      if (doc.certificates && doc.certificates.length > 0) {
+        certsHtml = `
+          <div class="doctor-card-certs">
+            <strong>Сертификаты и курсы:</strong>
+            <ul>
+              ${doc.certificates.map(c => `<li>${c}</li>`).join('')}
+            </ul>
+          </div>
+        `;
+      }
+
       card.innerHTML = `
         <div class="doctor-card-media">
           <img src="${doc.portrait}" alt="${doc.name}" loading="lazy">
           <span class="doctor-card-exp-tag">Стаж ${doc.experience}</span>
         </div>
         <div class="doctor-card-body">
+          ${isSelected ? '<span class="doctor-selected-badge">★ Выбранный специалист</span>' : ''}
           <h3 class="doctor-card-name">${doc.name}</h3>
           <p class="doctor-card-role">${doc.role}</p>
           <p class="doctor-card-practice">${doc.practice}</p>
+          <div class="doctor-card-education">
+            <strong>Образование:</strong> ${doc.education}
+          </div>
+          ${certsHtml}
+          ${procsHtml}
           <div class="doctor-card-actions">
-            <button type="button" class="btn-primary-wire" data-doc-book="${doc.name}" style="padding: 8px 16px; font-size: 0.8rem;">
+            <button type="button" class="btn-primary-wire" data-doc-book="${doc.name}" style="padding: 10px 18px; font-size: 0.84rem; min-height: 42px;">
               Записаться к врачу
             </button>
           </div>
         </div>
       `;
 
+      // Book button listener
       const bookBtn = card.querySelector('[data-doc-book]');
       if (bookBtn) {
-        bookBtn.addEventListener('click', () => {
-          openBookingModal(`Врач: ${doc.name} (${doc.role})`);
+        bookBtn.addEventListener('click', (e) => {
+          openBookingModal(`Врач: ${doc.name} (${doc.role})`, e.currentTarget);
         });
+      }
+
+      // Procedure chips listener (REV-002: Doctor -> ServiceScene transition)
+      card.querySelectorAll('[data-proc-link]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          state.pathway = 'services';
+          state.catId = chip.dataset.catLink;
+          state.procId = chip.dataset.procLink;
+          syncUrl();
+          renderHeaderAndRibbon();
+          renderServices();
+        });
+      });
+
+      if (isSelected) {
+        selectedDocElement = card;
       }
 
       el.doctorsGrid.appendChild(card);
     });
+
+    // Auto-scroll to selected doctor (REV-001)
+    if (selectedDocElement) {
+      setTimeout(() => {
+        selectedDocElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
   }
 
   // 7. Render Booking Gateway View
@@ -391,8 +525,9 @@
     }
   }
 
-  // 8. Booking Modal Logic
-  function openBookingModal(contextNotice = '') {
+  // 8. Booking Modal Logic with Focus Trap (REV-005 & REV-006)
+  function openBookingModal(contextNotice = '', triggerEl = null) {
+    state.lastActiveElement = triggerEl || document.activeElement;
     state.modalOpen = true;
     state.modalContext = contextNotice;
 
@@ -405,18 +540,41 @@
       }
     }
 
+    // Hide mobile floating bar under modal (REV-006)
+    if (el.mobileActionFloat) {
+      el.mobileActionFloat.classList.add('is-hidden');
+    }
+
     if (el.bookingModal) {
       el.bookingModal.classList.add('is-open');
       el.bookingModal.setAttribute('aria-hidden', 'false');
+
+      // Shift focus inside modal (REV-005)
+      setTimeout(() => {
+        if (el.modalCloseBtn) {
+          el.modalCloseBtn.focus();
+        }
+      }, 50);
     }
   }
 
   function closeBookingModal() {
     state.modalOpen = false;
     state.modalContext = null;
+
     if (el.bookingModal) {
       el.bookingModal.classList.remove('is-open');
       el.bookingModal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Restore mobile floating bar (REV-006)
+    if (el.mobileActionFloat) {
+      el.mobileActionFloat.classList.remove('is-hidden');
+    }
+
+    // Return focus to triggering element (REV-005)
+    if (state.lastActiveElement && typeof state.lastActiveElement.focus === 'function') {
+      state.lastActiveElement.focus();
     }
   }
 
@@ -453,6 +611,7 @@
         const p = btn.dataset.pathway;
         if (state.pathway === p) return;
         state.pathway = p;
+        if (p !== 'doctors') state.docSlug = null;
         syncUrl();
         renderHeaderAndRibbon();
         if (p === 'services') renderServices();
@@ -469,7 +628,7 @@
       });
     }
 
-    // Modal close
+    // Modal close handlers
     if (el.modalCloseBtn) {
       el.modalCloseBtn.addEventListener('click', closeBookingModal);
     }
@@ -478,6 +637,32 @@
       el.bookingModal.addEventListener('click', (e) => {
         if (e.target === el.bookingModal) {
           closeBookingModal();
+        }
+      });
+
+      // WAI-ARIA Focus Trap for modal (REV-005)
+      el.bookingModal.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          const focusables = Array.from(el.bookingModal.querySelectorAll(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )).filter(node => node.offsetParent !== null);
+
+          if (focusables.length === 0) return;
+
+          const firstEl = focusables[0];
+          const lastEl = focusables[focusables.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              lastEl.focus();
+              e.preventDefault();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              firstEl.focus();
+              e.preventDefault();
+            }
+          }
         }
       });
     }
@@ -512,8 +697,8 @@
     }
 
     if (el.mobileFloatBook) {
-      el.mobileFloatBook.addEventListener('click', () => {
-        openBookingModal(`Запись из мобильного меню клиники «${data.branches[state.branch].name}»`);
+      el.mobileFloatBook.addEventListener('click', (e) => {
+        openBookingModal(`Запись из мобильного меню клиники «${data.branches[state.branch].name}»`, e.currentTarget);
       });
     }
 
@@ -530,6 +715,13 @@
   // Initial Boot
   function init() {
     parseUrlState();
+
+    // Normalize URL via replaceState if any parameter was invalid (REV-003)
+    if (state.needsUrlNormalize) {
+      syncUrl(true);
+      state.needsUrlNormalize = false;
+    }
+
     renderHeaderAndRibbon();
     renderServices();
     renderDoctors();

@@ -946,6 +946,124 @@ a {
   gap: 12px;
 }
 
+/* Mobile Touch Target Ergonomics & Focus States (WCAG 2.5.5 / 2.5.8) */
+@media (max-width: 768px) {
+  .clinic-switcher {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .clinic-switch-btn {
+    flex: 1;
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pathway-nav {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .pathway-btn {
+    flex: 1;
+    min-height: 42px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-cat-btn {
+    min-height: 42px;
+    padding: 8px 14px;
+    font-size: 0.84rem;
+  }
+
+  .nav-proc-btn {
+    min-height: 44px;
+  }
+}
+
+.mobile-action-float.is-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Selected Doctor Highlight */
+.doctor-card.is-selected-doctor {
+  border: 2px solid var(--wire-accent);
+  box-shadow: 0 0 0 3px var(--wire-accent-border);
+}
+
+.doctor-selected-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  background: var(--wire-accent-bg);
+  border: 1px solid var(--wire-accent-border);
+  color: var(--wire-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: var(--wire-radius-sm);
+  margin-bottom: 6px;
+}
+
+/* Education and Certifications inside Doctor Card */
+.doctor-card-education {
+  font-size: 0.78rem;
+  color: var(--wire-ink-muted);
+  line-height: 1.45;
+  border-top: 1px dashed var(--wire-border-subtle);
+  padding-top: 8px;
+}
+
+.doctor-card-certs {
+  font-size: 0.75rem;
+  color: var(--wire-ink-muted);
+}
+
+.doctor-card-certs ul {
+  list-style: disc;
+  padding-left: 18px;
+  margin-top: 4px;
+}
+
+/* Clickable Procedure Chips */
+.doctor-proc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.doctor-proc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: var(--wire-radius-sm);
+  border: 1px solid var(--wire-border);
+  background: var(--wire-surface-alt);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--wire-ink);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: normal;
+  text-align: left;
+}
+
+.doctor-proc-chip:hover {
+  border-color: var(--wire-ink-loud);
+  background: var(--wire-surface);
+  color: var(--wire-ink-loud);
+}
+
 /* Accessibility & Motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
