@@ -13,3 +13,4 @@ Official DentalPRO material describes online booking as a configured flow where 
 ## Design decision
 
 V4.1 uses an image-led premium clinical system: dark ink header/hero anchors, porcelain content surfaces, restrained emerald actions and warm neutral trust sections. Layouts are composed by page family instead of applying one repeated card grid everywhere.
+

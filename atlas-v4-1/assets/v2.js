@@ -478,3 +478,4 @@
   initializeBookingDialog();
   initializeSmartFab();
 })();
+

@@ -119,3 +119,4 @@ A reviewer compares V4.1 against V4 using approved mockups and screenshots, then
 - The redesign is a static preview and does not introduce a backend or new booking API.
 - Official DentalPRO remains the authority for live availability; where the current project lacks a verified branch-specific endpoint, phone fallback is the safe default.
 - The design direction is chosen from the three required mockups using hierarchy, distinctiveness, readability and task completion rather than subjective numeric scoring.
+

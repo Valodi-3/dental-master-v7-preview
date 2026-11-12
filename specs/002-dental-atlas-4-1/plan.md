@@ -60,3 +60,4 @@ Create a separate `atlas-v4-1/` preview that keeps V4 intact while replacing its
 - Accessible mobile-first UX: REQUIRED — safe-area actions, focus, touch targets and no overflow are acceptance gates.
 - SEO without duplication: REQUIRED — new path has distinct metadata; V4 stays available for comparison.
 - Reviewable release: REQUIRED — separate branch/preview; no production or `main` changes.
+
