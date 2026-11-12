@@ -141,6 +141,28 @@
     document.body.appendChild(actions);
   }
 
+  function refineCarouselControls() {
+    document.querySelectorAll('[data-doctor-carousel]').forEach((carousel, index) => {
+      const track = carousel.querySelector('[data-doctor-track]');
+      if (!track) return;
+      const note = carousel.parentElement?.querySelector('.doctor-carousel-note');
+      if (note && !note.dataset.atlasV4UxHint) {
+        note.dataset.atlasV4UxHint = 'true';
+        note.textContent = `${note.textContent.trim()} Свайпните карточки по горизонтали или используйте стрелки.`;
+      }
+      if (note) {
+        if (!note.id) note.id = `doctor-carousel-note-${index + 1}`;
+        track.setAttribute('aria-describedby', note.id);
+      }
+      const previous = document.querySelector(`[data-doctor-prev][aria-controls="${track.id}"]`);
+      const next = document.querySelector(`[data-doctor-next][aria-controls="${track.id}"]`);
+      previous?.setAttribute('title', 'Показать предыдущую карточку');
+      next?.setAttribute('title', 'Показать следующую карточку');
+      previous?.setAttribute('aria-keyshortcuts', 'ArrowLeft');
+      next?.setAttribute('aria-keyshortcuts', 'ArrowRight');
+    });
+  }
+
   function addPremiumHomeSignals() {
     if (body.dataset.page !== 'home' || document.querySelector('.atlas-4-1-proof-strip')) return;
     const hero = document.querySelector('.home-hero');
@@ -180,6 +202,7 @@
     rememberBookingContext();
     exposeUnavailableStates();
     addResponsiveBookingActions();
+    refineCarouselControls();
     addPremiumHomeSignals();
     applyHeroPhotography();
     if (lastBookingTrigger) lastBookingTrigger.focus({ preventScroll: true });
