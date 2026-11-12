@@ -160,6 +160,18 @@
     document.querySelector('.contact-band')?.classList.add('atlas-4-1-contact-section');
   }
 
+  function applyHeroPhotography() {
+    if (body.dataset.page !== 'home') return;
+    const image = document.querySelector('.welcome-photo img');
+    if (!image) return;
+    const photography = branch === 'ispanskie'
+      ? { src: '../../design/assets/ispanskie/gallery-3.jpg', alt: 'Врачи обсуждают снимок в кабинете стоматологии Испанских кварталов' }
+      : { src: '../../design/assets/prokshino/treatment.webp', alt: 'Врач проводит стоматологический приём в клинике Прокшино' };
+    image.src = photography.src;
+    image.alt = photography.alt;
+    image.setAttribute('fetchpriority', 'high');
+  }
+
   function init() {
     body.classList.add('atlas-4-1-refined');
     closeMenuOnNavigation();
@@ -169,6 +181,7 @@
     exposeUnavailableStates();
     addResponsiveBookingActions();
     addPremiumHomeSignals();
+    applyHeroPhotography();
     if (lastBookingTrigger) lastBookingTrigger.focus({ preventScroll: true });
   }
 

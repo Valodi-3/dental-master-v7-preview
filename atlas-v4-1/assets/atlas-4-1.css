@@ -748,3 +748,46 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-online { backgr
   body[data-atlas-version="4-1"].atlas-4-1-refined main { padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
 }
 
+/* Image direction correction: the photograph is the subject, not a floating card. */
+body[data-atlas-version="4-1"].atlas-4-1-refined .photo-frame-wrap {
+  padding: 0;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .photo-frame-wrap::before {
+  display: none;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-photo img {
+  display: block;
+  aspect-ratio: 1.24;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 6px;
+  box-shadow: none;
+  filter: saturate(.9) contrast(1.03);
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .photo-floating-badge {
+  right: 16px;
+  bottom: 16px;
+  max-width: min(290px, calc(100% - 32px));
+  border-left: 0;
+  border-top: 2px solid var(--gold);
+  background: rgba(11, 34, 27, .86);
+  box-shadow: none;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .subpage-hero-grid figure,
+body[data-atlas-version="4-1"].atlas-4-1-refined .service-hero-image,
+body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-detail-photo {
+  border: 1px solid rgba(19, 35, 31, .16);
+  border-radius: 6px;
+  box-shadow: none;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-detail-photo { overflow: hidden; }
+body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-detail-photo img,
+body[data-atlas-version="4-1"].atlas-4-1-refined .service-hero-image img { filter: saturate(.9) contrast(1.03); }
+
+@media (max-width: 680px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-photo img { aspect-ratio: 1.18; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .photo-floating-badge { right: 10px; bottom: 10px; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .subpage-hero-grid figure,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .service-hero-image,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-detail-photo { border-radius: 4px; }
+}
+
