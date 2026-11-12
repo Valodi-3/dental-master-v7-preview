@@ -1057,3 +1057,78 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .footer-contact span {
   }
 }
 
+/* Final fixes: reserve the mobile action area and keep all branch CTAs in one system. */
+@media (min-width: 821px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined .primary-nav > a {
+    font-size: .82rem;
+    letter-spacing: .06em;
+  }
+}
+
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .button-primary,
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-detail-section .button-primary,
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice .button-primary {
+  color: #0b2419;
+  background: #b7e1c0;
+  border-color: #b7e1c0;
+  box-shadow: 0 10px 24px rgba(10, 39, 28, .16);
+}
+
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .button-primary:hover,
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-detail-section .button-primary:hover,
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice .button-primary:hover {
+  color: #0b2419;
+  background: #d6f1da;
+  border-color: #d6f1da;
+}
+
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .button-secondary,
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-detail-section .button-secondary,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .text-button {
+  color: #e3f1e9;
+  border-color: rgba(227, 241, 233, .48);
+  background: transparent;
+}
+
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .button-secondary:hover,
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-detail-section .button-secondary:hover,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .text-button:hover {
+  color: #0b2419;
+  border-color: #b7e1c0;
+  background: #b7e1c0;
+}
+
+@media (max-width: 680px) {
+  html:has(.atlas-4-1-mobile-actions) {
+    scroll-padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-atlas-version="4-1"].atlas-4-1-refined main {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-atlas-version="4-1"].atlas-4-1-refined .v2-footer {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-mobile-actions {
+    min-height: 68px;
+    padding-top: 10px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-mobile-actions .button {
+    min-height: 48px;
+  }
+
+  body[data-atlas-version="4-1"].atlas-4-1-refined .gallery-photo,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .selected-procedure,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .price-item {
+    scroll-margin-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body[data-atlas-version="4-1"].atlas-4-1-refined .gallery-photo figcaption {
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
+}
+

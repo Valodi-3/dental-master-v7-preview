@@ -55,8 +55,19 @@
     const categoryButtons = new Map();
     const serviceButtons = new Map();
 
+    function featuredFor(category) {
+      return (DATA.featuredServiceIds[category] || []).filter((serviceId) => {
+        const service = serviceById.get(serviceId);
+        return service && service.category === category;
+      });
+    }
+
     function selectedService() {
-      return serviceById.get(activeServiceId) || serviceById.get(DATA.featuredServiceIds[activeCategory][0]);
+      const service = serviceById.get(activeServiceId);
+      if (service && service.category === activeCategory) return service;
+      const fallbackId = featuredFor(activeCategory)[0];
+      activeServiceId = fallbackId || '';
+      return fallbackId ? serviceById.get(fallbackId) : null;
     }
 
     function makeCategoryTabs() {
@@ -103,7 +114,7 @@
     function makeVariants() {
       variantsBox.textContent = '';
       serviceButtons.clear();
-      const featured = DATA.featuredServiceIds[activeCategory] || [];
+      const featured = featuredFor(activeCategory);
       featured.forEach((serviceId) => {
         const service = serviceById.get(serviceId);
         if (!service) return;
@@ -128,7 +139,7 @@
     function setCategory(category) {
       if (!DATA.categories[category]) return;
       activeCategory = category;
-      activeServiceId = DATA.featuredServiceIds[category][0];
+      activeServiceId = featuredFor(category)[0] || '';
       categoryButtons.forEach((button, key) => {
         const isCurrent = key === category;
         button.setAttribute('aria-selected', String(isCurrent));
@@ -150,7 +161,7 @@
 
     function renderPanel() {
       const service = selectedService();
-      if (!service) return;
+      if (!service || service.category !== activeCategory) return;
       const category = service.category;
       const copyWrap = selector.querySelector('.selected-procedure-copy');
       if (copyWrap) {
