@@ -1,7 +1,7 @@
 # Dental Atlas 4.1 — финальная UX-полировка PR #2
 
-Рабочая ветка: `codex/dental-atlas-4-1-premium`  
-Preview: локальный сервер `http://127.0.0.1:4174`  
+Рабочая ветка: `codex/dental-atlas-4-1-premium`
+Preview: локальный сервер `http://127.0.0.1:4174`
 Production и `main` не изменялись.
 
 ## Изменения и визуальные доказательства
