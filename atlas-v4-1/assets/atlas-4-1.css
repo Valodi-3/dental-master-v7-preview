@@ -1869,6 +1869,118 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .dialog-notice-
   }
 }
 
+/* Booking flow polish: calmer rhythm on desktop, compact and readable on phones. */
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog-inner {
+  padding: clamp(24px, 3.2vw, 38px);
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context {
+  margin: 14px 0 0;
+  padding: 11px 14px;
+  border-left: 3px solid #b39a62;
+  background: #f7f4ea;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-step,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step {
+  margin-top: 18px;
+  padding: 19px 20px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step .booking-service {
+  padding: 14px 16px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-channel-label {
+  margin-top: 28px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-channel-label + h2 {
+  margin-top: 8px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-grid {
+  gap: 16px;
+  margin-top: 18px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice {
+  padding: 22px;
+  gap: 11px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice .button {
+  min-height: 48px;
+}
+
+@media (max-width: 680px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog {
+    width: calc(100% - 16px);
+    max-height: calc(100dvh - 16px);
+    margin: 8px auto;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog-inner {
+    padding: 14px 14px max(20px, env(safe-area-inset-bottom));
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context {
+    margin-top: 10px;
+    padding: 9px 11px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context strong,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context span {
+    font-size: .78rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-step,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step {
+    margin-top: 12px;
+    padding: 14px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-option {
+    min-height: 52px;
+    padding: 9px 8px;
+    font-size: .86rem;
+    text-align: center;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step .booking-service {
+    padding: 12px 13px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step .booking-service strong {
+    font-size: .9rem;
+    line-height: 1.35;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step .booking-explainer {
+    margin-top: 8px;
+    font-size: .76rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-channel-label {
+    margin-top: 19px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-channel-label + h2 {
+    margin-top: 6px;
+    font-size: clamp(1.62rem, 7.6vw, 2rem);
+    line-height: 1.04;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-grid {
+    gap: 10px;
+    margin-top: 13px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice {
+    padding: 14px;
+    gap: 8px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice .button {
+    min-height: 46px;
+    font-size: .78rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-dentalpro-warning {
+    margin-top: 7px;
+    font-size: .76rem;
+    line-height: 1.35;
+  }
+}
+@media (max-width: 360px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-options {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Final visual acceptance cascade — intentionally last so the five reviewer fixes win. */
 body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero {
   padding-block: 22px 42px;

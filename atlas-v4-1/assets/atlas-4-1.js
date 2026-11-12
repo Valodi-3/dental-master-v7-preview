@@ -84,7 +84,7 @@
     const context = document.createElement('div');
     context.className = 'atlas-4-1-booking-context booking-data-note';
     context.setAttribute('role', 'status');
-    context.innerHTML = `<strong>Контекст: ${branchName}</strong><span data-atlas-4-1-service-context>Выбранная услуга будет показана только для ориентира.</span>`;
+    context.innerHTML = `<strong>Контекст: ${branchName}</strong><span data-atlas-4-1-service-context>Услуга будет показана только для ориентира.</span>`;
     const anchor = dialog.querySelector('[data-booking-service]') || dialog.querySelector('.booking-dialog-inner')?.firstElementChild || dialog.firstElementChild;
     const parent = anchor?.parentElement || dialog;
     parent.insertBefore(context, anchor || null);
@@ -99,12 +99,12 @@
       ispanskie: {
         label: 'Испанские кварталы',
         online: false,
-        notice: 'Проверенной онлайн-ссылки DentalPRO для этого филиала в текущей конфигурации нет. Используйте телефон или подтверждённый мессенджер.',
+        notice: 'Онлайн-ссылка филиала не подтверждена. Используйте телефон или мессенджер.',
       },
       prokshino: {
         label: 'Прокшино',
         online: true,
-        notice: 'Официальная страница DentalPRO ведёт в филиал Прокшино. Последняя проверка виджета вернула «Токен не найден», поэтому свободные окна нужно подтвердить во внешней системе.',
+        notice: 'Проверка DentalPRO вернула «Токен не найден». Свободные окна подтвердите во внешней системе или по телефону.',
       },
     };
     const defaultBranch = branches[branch] ? branch : 'prokshino';
@@ -126,9 +126,12 @@
     serviceStep.className = 'atlas-4-1-booking-service-step';
     serviceStep.setAttribute('aria-labelledby', 'atlas-booking-service-title');
     serviceStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 2 · УСЛУГА</span><h3 id="atlas-booking-service-title">Проверьте направление</h3></div>'
-      + '<p class="atlas-4-1-booking-service-empty" data-booking-service-empty>Услуга не выбрана на этой странице. Выберите позицию в каталоге или укажите её повторно во внешней системе.</p>';
+      + '<p class="atlas-4-1-booking-service-empty" data-booking-service-empty>Услуга не выбрана. Выберите позицию в каталоге или укажите её во внешней системе.</p>';
     if (serviceSummary) serviceStep.append(serviceSummary);
-    if (serviceNote) serviceStep.append(serviceNote);
+    if (serviceNote) {
+      serviceNote.textContent = 'Услуга показана для ориентира; окончательные этапы и стоимость обсуждаются с врачом.';
+      serviceStep.append(serviceNote);
+    }
 
     const title = choices.querySelector('h2, h3');
     const channelLabel = document.createElement('span');
@@ -164,8 +167,8 @@
       if (kicker) kicker.textContent = config.online ? 'ОНЛАЙН · ФИЛИАЛ ПРОКШИНО' : 'ОНЛАЙН · НЕ ПОДТВЕРЖДЕНО';
       if (heading) heading.textContent = config.online ? 'DentalPRO · Прокшино' : 'Онлайн-запись Испанских кварталов';
       if (description) description.textContent = config.online
-        ? 'Официальная страница записи филиала Прокшино. Свободные окна, врач и услуга подтверждаются только во внешней системе.'
-        : 'Для Испанских кварталов нет подтверждённой ссылки DentalPRO. Используйте телефон или подтверждённый мессенджер.';
+        ? 'Официальная страница записи филиала Прокшино. Врач, услуга и время подтверждаются во внешней системе.'
+        : 'Онлайн-ссылка для Испанских кварталов не подтверждена. Используйте телефон или мессенджер.';
       let warning = card.querySelector('[data-atlas-dentalpro-warning]');
       if (!warning) {
         warning = document.createElement('p');
@@ -247,7 +250,7 @@
       const serviceId = trigger.dataset.serviceId || '';
       try { sessionStorage.setItem('atlas-4-1-booking-context', JSON.stringify({ branch, serviceId })); } catch (_) { /* private mode */ }
       const context = document.querySelector('[data-atlas-4-1-service-context]');
-      if (context) context.textContent = serviceId ? `Услуга выбрана для ориентира (код ${serviceId}); слоты и назначение врача проверяются во внешней системе.` : 'Услуга будет выбрана во внешней системе записи.';
+      if (context) context.textContent = serviceId ? 'Услуга сохранена как ориентир; врач и свободное время подтверждаются во внешней системе.' : 'Услуга будет выбрана во внешней системе записи.';
     }, true);
   }
 

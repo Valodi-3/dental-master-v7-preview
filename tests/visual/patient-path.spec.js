@@ -33,7 +33,7 @@ test('patient path: service → price → doctor → booking', async ({ page }) 
   await expect(page.locator('[data-booking-dialog]')).toContainText('ШАГ 2 · УСЛУГА');
   await expect(page.locator('[data-booking-dialog]')).toContainText('ШАГ 3 · СПОСОБ ЗАПИСИ');
   await expect(page.locator('[data-booking-branch="ispanskie"]')).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('[data-booking-dialog]')).toContainText('Проверенной онлайн-ссылки DentalPRO для этого филиала');
+  await expect(page.locator('[data-booking-dialog]')).toContainText('Онлайн-ссылка филиала не подтверждена');
   await expect(page.locator('[data-booking-dialog] a[href^="tel:"]').first()).toBeVisible();
   await expect(page.locator('[data-booking-dialog] a[aria-disabled="true"]')).toBeVisible();
 
