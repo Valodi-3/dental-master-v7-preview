@@ -1728,6 +1728,147 @@ body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .booking-choice .b
   }
 }
 
+/* DentalPRO handoff: branch and service context are explicit before channels. */
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-step,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step {
+  margin: 14px 0 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(24, 61, 48, .16);
+  border-radius: 12px;
+  background: #f3f7f0;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step {
+  background: #fbfcf7;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-step-heading {
+  display: grid;
+  gap: 4px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context {
+  display: grid;
+  gap: 4px;
+  color: #43584d;
+  line-height: 1.45;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context strong {
+  color: var(--ink);
+  font-size: .82rem;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-context span {
+  color: #43584d;
+  font-size: .82rem;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-step-heading h3 {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1.28rem, 2.4vw, 1.7rem);
+  line-height: 1.05;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-option {
+  min-height: 48px;
+  padding: 11px 14px;
+  border: 1px solid rgba(25, 75, 58, .3);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #fff;
+  font: inherit;
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-option:hover,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-option:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(17, 115, 91, .13);
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-option.is-selected {
+  border-color: var(--accent);
+  color: #0b2419;
+  background: #cfe7d1;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-status,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-empty,
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-dentalpro-warning {
+  margin: 10px 0 0;
+  color: #43584d;
+  font-size: .86rem;
+  line-height: 1.45;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step.has-selection .atlas-4-1-booking-service-empty {
+  display: none;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step .booking-service {
+  margin-top: 10px;
+  border-left-color: var(--accent);
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step .booking-explainer {
+  margin: 10px 0 0;
+  color: #43584d;
+  font-size: .82rem;
+  line-height: 1.45;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-channel-label {
+  display: block;
+  margin-top: 22px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-online.is-unavailable {
+  border-color: rgba(110, 81, 38, .28);
+  background: #f7f3ea;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-online.is-unavailable .atlas-4-1-dentalpro-warning {
+  color: #684f2f;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-online a[aria-disabled="true"] {
+  cursor: not-allowed;
+  color: #57655c;
+  border-color: rgba(41, 61, 51, .23);
+  background: #e5e9e2;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .dialog-notice-branch {
+  margin-top: 10px;
+  color: #43584d;
+  line-height: 1.5;
+}
+
+@media (max-width: 680px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-step,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-step {
+    margin-top: 10px;
+    padding: 13px 14px;
+    border-radius: 10px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-options {
+    grid-template-columns: 1fr;
+    gap: 7px;
+    margin-top: 9px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-option {
+    min-height: 46px;
+    padding: 10px 12px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-step-heading h3 {
+    font-size: 1.28rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-branch-status,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-service-empty,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-dentalpro-warning {
+    font-size: .79rem;
+    line-height: 1.4;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-booking-channel-label {
+    margin-top: 17px;
+  }
+}
+
 /* Final visual acceptance cascade — intentionally last so the five reviewer fixes win. */
 body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero {
   padding-block: 22px 42px;

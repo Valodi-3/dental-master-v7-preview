@@ -90,6 +90,155 @@
     parent.insertBefore(context, anchor || null);
   }
 
+  function addBookingBranchFlow() {
+    const dialog = document.querySelector('[data-booking-dialog]');
+    const choices = dialog?.querySelector('[data-booking-step="choices"]');
+    if (!dialog || !choices || choices.querySelector('.atlas-4-1-booking-branch-step')) return;
+
+    const branches = {
+      ispanskie: {
+        label: 'Испанские кварталы',
+        online: false,
+        notice: 'Проверенной онлайн-ссылки DentalPRO для этого филиала в текущей конфигурации нет. Используйте телефон или подтверждённый мессенджер.',
+      },
+      prokshino: {
+        label: 'Прокшино',
+        online: true,
+        notice: 'Официальная страница DentalPRO ведёт в филиал Прокшино. Последняя проверка виджета вернула «Токен не найден», поэтому свободные окна нужно подтвердить во внешней системе.',
+      },
+    };
+    const defaultBranch = branches[branch] ? branch : 'prokshino';
+    let selectedBranch = defaultBranch;
+
+    const branchStep = document.createElement('section');
+    branchStep.className = 'atlas-4-1-booking-branch-step';
+    branchStep.setAttribute('aria-labelledby', 'atlas-booking-branch-title');
+    branchStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 1 · ФИЛИАЛ</span><h3 id="atlas-booking-branch-title">Выберите филиал</h3></div>'
+      + '<div class="atlas-4-1-booking-branch-options" role="group" aria-label="Филиал записи">'
+      + '<button type="button" class="atlas-4-1-booking-branch-option" data-booking-branch="ispanskie" aria-pressed="false">Испанские кварталы</button>'
+      + '<button type="button" class="atlas-4-1-booking-branch-option" data-booking-branch="prokshino" aria-pressed="false">Прокшино</button>'
+      + '</div>'
+      + '<p class="atlas-4-1-booking-branch-status" data-booking-branch-status role="status" aria-live="polite"></p>';
+
+    const serviceSummary = dialog.querySelector('[data-booking-service]');
+    const serviceNote = dialog.querySelector('[data-booking-service-note]');
+    const serviceStep = document.createElement('section');
+    serviceStep.className = 'atlas-4-1-booking-service-step';
+    serviceStep.setAttribute('aria-labelledby', 'atlas-booking-service-title');
+    serviceStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 2 · УСЛУГА</span><h3 id="atlas-booking-service-title">Проверьте направление</h3></div>'
+      + '<p class="atlas-4-1-booking-service-empty" data-booking-service-empty>Услуга не выбрана на этой странице. Выберите позицию в каталоге или укажите её повторно во внешней системе.</p>';
+    if (serviceSummary) serviceStep.append(serviceSummary);
+    if (serviceNote) serviceStep.append(serviceNote);
+
+    const title = choices.querySelector('h2, h3');
+    const channelLabel = document.createElement('span');
+    channelLabel.className = 'choice-kicker atlas-4-1-booking-channel-label';
+    channelLabel.textContent = 'ШАГ 3 · СПОСОБ ЗАПИСИ';
+    if (title) title.before(channelLabel);
+    choices.prepend(serviceStep);
+    choices.prepend(branchStep);
+
+    const branchStatus = branchStep.querySelector('[data-booking-branch-status]');
+    const serviceEmpty = serviceStep.querySelector('[data-booking-service-empty]');
+    const summary = serviceSummary;
+    const onlineCards = [...dialog.querySelectorAll('.booking-choice-online')];
+    const branchNotice = dialog.querySelector('.dialog-notice-branch');
+    const selectedContext = dialog.querySelector('.atlas-4-1-booking-context');
+
+    function serviceIsSelected() {
+      return Boolean(summary && !summary.hidden && summary.textContent.trim());
+    }
+
+    function syncServiceStep() {
+      const selected = serviceIsSelected();
+      if (serviceEmpty) serviceEmpty.hidden = selected;
+      serviceStep.classList.toggle('has-selection', selected);
+    }
+
+    function updateOnlineCard(card, config) {
+      const kicker = card.querySelector('.choice-kicker');
+      const heading = card.querySelector('h2, h3');
+      const description = [...card.querySelectorAll('p:not(.choice-kicker)')].find((node) => !node.matches('[data-atlas-dentalpro-warning]'));
+      const link = card.querySelector('[data-atlas-dentalpro-link]')
+        || card.querySelector('a[href*="online-zapis"], a[href*="dental-pro"], a.button');
+      if (kicker) kicker.textContent = config.online ? 'ОНЛАЙН · ФИЛИАЛ ПРОКШИНО' : 'ОНЛАЙН · НЕ ПОДТВЕРЖДЕНО';
+      if (heading) heading.textContent = config.online ? 'DentalPRO · Прокшино' : 'Онлайн-запись Испанских кварталов';
+      if (description) description.textContent = config.online
+        ? 'Официальная страница записи филиала Прокшино. Свободные окна, врач и услуга подтверждаются только во внешней системе.'
+        : 'Для Испанских кварталов нет подтверждённой ссылки DentalPRO. Используйте телефон или подтверждённый мессенджер.';
+      let warning = card.querySelector('[data-atlas-dentalpro-warning]');
+      if (!warning) {
+        warning = document.createElement('p');
+        warning.className = 'atlas-4-1-dentalpro-warning';
+        warning.dataset.atlasDentalproWarning = 'true';
+        warning.setAttribute('role', 'status');
+        card.querySelector('.booking-card-actions')?.before(warning);
+      }
+      warning.textContent = config.notice;
+      card.classList.toggle('is-unavailable', !config.online);
+      if (link) {
+        link.dataset.atlasDentalproLink = 'true';
+        if (config.online) {
+          link.href = 'https://dantist-prokshino.ru/online-zapis/';
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = 'Открыть страницу DentalPRO · Прокшино ↗';
+          link.removeAttribute('aria-disabled');
+          link.removeAttribute('tabindex');
+          link.classList.remove('button-light');
+          link.classList.add('button-primary');
+        } else {
+          link.removeAttribute('href');
+          link.removeAttribute('target');
+          link.removeAttribute('rel');
+          link.setAttribute('aria-disabled', 'true');
+          link.setAttribute('tabindex', '-1');
+          link.classList.remove('button-primary');
+          link.classList.add('button-light');
+          link.textContent = 'Онлайн-ссылка филиала не подтверждена';
+        }
+      }
+    }
+
+    function selectBranch(nextBranch, focusButton = false) {
+      if (!branches[nextBranch]) return;
+      selectedBranch = nextBranch;
+      dialog.dataset.selectedBranch = nextBranch;
+      branchStep.querySelectorAll('[data-booking-branch]').forEach((button) => {
+        const active = button.dataset.bookingBranch === selectedBranch;
+        button.classList.toggle('is-selected', active);
+        button.setAttribute('aria-pressed', String(active));
+        if (active && focusButton) button.focus({ preventScroll: true });
+      });
+      const config = branches[selectedBranch];
+      if (branchStatus) branchStatus.textContent = `Выбран филиал: ${config.label}.`;
+      if (branchNotice) branchNotice.textContent = `Важно: ${config.notice}`;
+      if (selectedContext) {
+        const contextStrong = selectedContext.querySelector('strong');
+        if (contextStrong) contextStrong.textContent = `Контекст: ${config.label}`;
+      }
+      onlineCards.forEach((card) => updateOnlineCard(card, config));
+    }
+
+    branchStep.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-booking-branch]');
+      if (button) selectBranch(button.dataset.bookingBranch, true);
+    });
+    document.addEventListener('click', (event) => {
+      const trigger = event.target.closest('[data-open-booking]');
+      if (!trigger) return;
+      selectBranch(branch, false);
+      syncServiceStep();
+    }, true);
+    if (summary) {
+      const observer = new MutationObserver(syncServiceStep);
+      observer.observe(summary, { attributes: true, childList: true, subtree: true, characterData: true });
+    }
+    dialog.addEventListener('close', () => selectBranch(branch, false));
+    selectBranch(defaultBranch, false);
+    syncServiceStep();
+  }
+
   function rememberBookingContext() {
     document.addEventListener('click', (event) => {
       const trigger = event.target.closest('[data-open-booking]');
@@ -201,6 +350,7 @@
     closeMenuOnNavigation();
     addGalleryLightbox();
     addBookingContext();
+    addBookingBranchFlow();
     rememberBookingContext();
     exposeUnavailableStates();
     addResponsiveBookingActions();
