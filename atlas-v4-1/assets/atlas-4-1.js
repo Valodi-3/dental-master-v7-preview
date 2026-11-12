@@ -34,7 +34,7 @@
     lightbox.setAttribute('role', 'dialog');
     lightbox.setAttribute('aria-modal', 'true');
     lightbox.setAttribute('aria-label', 'Просмотр фотографии');
-    lightbox.innerHTML = '<button type="button" aria-label="Закрыть фото">×</button><figure><img alt=""><figcaption></figcaption></figure>';
+    lightbox.innerHTML = '<button type="button" aria-label="Закрыть фото">×</button><figure><img src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt=""><figcaption></figcaption></figure>';
     document.body.appendChild(lightbox);
     const close = lightbox.querySelector('button');
     const image = lightbox.querySelector('img');
@@ -141,13 +141,34 @@
     document.body.appendChild(actions);
   }
 
+  function addPremiumHomeSignals() {
+    if (body.dataset.page !== 'home' || document.querySelector('.atlas-4-1-proof-strip')) return;
+    const hero = document.querySelector('.home-hero');
+    if (!hero) return;
+    const strip = document.createElement('section');
+    strip.className = 'atlas-4-1-proof-strip';
+    strip.setAttribute('aria-label', 'Факты о филиале');
+    strip.innerHTML = '<div class="shell atlas-4-1-proof-grid">'
+      + '<div class="atlas-4-1-proof-item"><strong>254</strong><span>позиции в открытом прайсе</span></div>'
+      + '<div class="atlas-4-1-proof-item"><strong>5</strong><span>специалистов в каталоге филиала</span></div>'
+      + '<div class="atlas-4-1-proof-item"><strong>09–21</strong><span>ежедневный режим работы</span></div>'
+      + '</div>';
+    hero.after(strip);
+    document.querySelector('.clinic-strip')?.classList.add('atlas-4-1-gallery-section');
+    document.querySelector('.team-strip')?.classList.add('atlas-4-1-team-section');
+    document.querySelector('.selector-section')?.classList.add('atlas-4-1-catalog-section');
+    document.querySelector('.contact-band')?.classList.add('atlas-4-1-contact-section');
+  }
+
   function init() {
+    body.classList.add('atlas-4-1-refined');
     closeMenuOnNavigation();
     addGalleryLightbox();
     addBookingContext();
     rememberBookingContext();
     exposeUnavailableStates();
     addResponsiveBookingActions();
+    addPremiumHomeSignals();
     if (lastBookingTrigger) lastBookingTrigger.focus({ preventScroll: true });
   }
 
