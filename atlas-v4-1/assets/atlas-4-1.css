@@ -175,7 +175,7 @@ body[data-atlas-version="4-1"] {
   --paper-deep: #eae5da;
   --white: #fffdf8;
   --ink: #13251f;
-  --ink-muted: #5f6c66;
+  --ink-muted: #4d6156;
   --accent: #11735b;
   --accent-deep: #07523f;
   --gold: #b68b51;
@@ -419,7 +419,7 @@ body[data-atlas-version="4-1"].atlas-4-1-refined {
   --paper-deep: #e9ebe4;
   --white: #fffdf9;
   --ink: #13231f;
-  --ink-muted: #61716a;
+  --ink-muted: #4d6156;
   --accent: #087d62;
   --accent-deep: #075641;
   --gold: #c49a58;
@@ -1040,6 +1040,51 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .footer-contact span {
     font-size: .82rem;
     letter-spacing: .06em;
   }
+}
+
+/* Small labels and information plates remain readable on both dark and light surfaces. */
+body[data-atlas-version="4-1"].atlas-4-1-refined .experience-stamp {
+  color: #e8f5eb;
+  background: rgba(183, 225, 192, .16);
+  border: 1px solid rgba(183, 225, 192, .32);
+  border-left: 3px solid var(--gold);
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .experience-stamp strong {
+  color: #e8f5eb;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .experience-stamp span {
+  color: #d9eee0;
+  font-size: .74rem;
+  font-weight: 700;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-card-experience {
+  color: #385247;
+  background: #f4f8f2;
+  border-color: #b6c9bd;
+  font-size: .76rem;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .catalog-search-label,
+body[data-atlas-version="4-1"].atlas-4-1-refined .catalog-result-count,
+body[data-atlas-version="4-1"].atlas-4-1-refined .category-total,
+body[data-atlas-version="4-1"].atlas-4-1-refined .source-note {
+  color: #385247;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined .catalog-result-count,
+body[data-atlas-version="4-1"].atlas-4-1-refined .category-total,
+body[data-atlas-version="4-1"].atlas-4-1-refined .source-note {
+  font-size: .8rem;
+  line-height: 1.45;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-card-primary > p:not(.eyebrow),
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-card-primary .contact-index {
+  color: #eaf6ed;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-card > p:not(.eyebrow),
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .booking-choice > p:not(.choice-kicker),
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .booking-card > p:not(.eyebrow) {
+  color: #385247;
+  font-size: .95rem;
+  line-height: 1.55;
 }
 
 body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .button-primary,
@@ -1680,6 +1725,69 @@ body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .booking-choice .b
   body[data-atlas-version="4-1"].atlas-4-1-refined.page-service .subpage-title-row {
     min-height: 290px;
     align-items: end;
+  }
+}
+
+/* Final visual acceptance cascade — intentionally last so the five reviewer fixes win. */
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero {
+  padding-block: 22px 42px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero .subpage-title-row {
+  gap: 24px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit {
+  width: clamp(108px, 12vw, 150px);
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctors .doctors-directory {
+  padding-top: 32px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .subpage-hero {
+  padding-block: 22px 36px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-card-primary > p:not(.eyebrow) {
+  color: #eaf6ed;
+}
+
+@media (max-width: 680px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .subpage-hero {
+    padding-block: 18px 24px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .subpage-title-row {
+    gap: 8px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .subpage-title-row h1 {
+    margin: 10px 0 12px;
+    font-size: clamp(2.25rem, 10vw, 3.2rem);
+    line-height: 1.03;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .subpage-title-row > p {
+    max-width: 340px;
+    font-size: .95rem;
+    line-height: 1.5;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .section-shell {
+    padding-block: 24px 84px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero {
+    padding-block: 16px 24px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero .subpage-title-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit {
+    width: 72px;
+    margin-top: 8px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit strong {
+    font-size: 1.6rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit span {
+    font-size: .58rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctors .doctors-directory {
+    padding-top: 32px;
   }
 }
 
