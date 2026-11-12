@@ -47,7 +47,7 @@
 - [x] T021 [P] Run Chromium checks at 320, 360, 390, 430, 768, 1024, 1440 and 1920 px for overflow, console errors, menu, search/filter, modals, gallery and booking.
 - [x] T022 Capture phone/desktop screenshots for homepage, doctors, services, gallery and booking plus a V4/V4.1 comparison set.
 - [x] T023 Record an independent design audit with concrete strengths, remaining defects and NOT VERIFIED items; do not assign a numeric self-score.
-- [ ] T024 Commit the separate branch, push it and create a PR without merging or deploying.
+- [x] T024 Commit the separate branch, push it and create a PR without merging or deploying.
 
 ## Dependencies
 
