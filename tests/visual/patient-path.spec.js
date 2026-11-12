@@ -33,13 +33,13 @@ test('patient path: service → price → doctor → booking', async ({ page }) 
   await expect(page.locator('[data-booking-dialog]')).toContainText('ШАГ 2 · УСЛУГА');
   await expect(page.locator('[data-booking-dialog]')).toContainText('ШАГ 3 · СПОСОБ ЗАПИСИ');
   await expect(page.locator('[data-booking-branch="ispanskie"]')).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('[data-booking-dialog]')).toContainText('Онлайн-ссылка филиала не подтверждена');
+  await expect(page.locator('[data-booking-dialog]')).toContainText('Общая официальная страница DentalPRO');
   await expect(page.locator('[data-booking-dialog] a[href^="tel:"]').first()).toBeVisible();
-  await expect(page.locator('[data-booking-dialog] a[aria-disabled="true"]')).toBeVisible();
+  await expect(page.locator('[data-booking-dialog] a[href*="dantist-prokshino.ru/online-zapis"]').first()).toBeVisible();
 
   await page.locator('[data-booking-branch="prokshino"]').click();
   await expect(page.locator('[data-booking-branch="prokshino"]')).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('[data-booking-dialog]')).toContainText('Токен не найден');
+  await expect(page.locator('[data-booking-dialog]')).toContainText('Филиал, врач и свободное время подтверждаются');
   await expect(page.locator('[data-booking-dialog] a[href*="dantist-prokshino.ru/online-zapis"]').first()).toBeVisible();
   await page.locator('[data-booking-branch="ispanskie"]').click();
   await expect(page.locator('[data-booking-branch="ispanskie"]')).toHaveAttribute('aria-pressed', 'true');

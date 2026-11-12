@@ -55,14 +55,10 @@ for (const viewport of VIEWPORTS) {
       await expect(dialog.locator('[data-booking-branch="' + otherBranch + '"]')).toHaveAttribute('aria-pressed', 'true');
       await expect(dialog.locator('[data-booking-service]')).toContainText(entry.service);
 
-      if (otherBranch === 'ispanskie') {
-        await expect(dialog.locator('.booking-choice-online')).toHaveClass(/is-unavailable/);
-        await expect(dialog.locator('.booking-choice-online a[aria-disabled="true"]')).toBeVisible();
-      } else {
-        await expect(dialog.locator('.booking-choice-online')).not.toHaveClass(/is-unavailable/);
-        await expect(dialog.locator('.booking-choice-online a[href*="dantist-prokshino.ru\/online-zapis"]')).toBeVisible();
-        await expect(dialog.locator('.atlas-4-1-dentalpro-warning')).toContainText('Токен не найден');
-      }
+      await expect(dialog.locator('.booking-choice-online')).not.toHaveClass(/is-unavailable/);
+      await expect(dialog.locator('.booking-choice-online a[href*="dantist-prokshino.ru\/online-zapis"]')).toBeVisible();
+      await expect(dialog.locator('.booking-choice-online a[aria-disabled="true"]')).toHaveCount(0);
+      await expect(dialog.locator('.atlas-4-1-dentalpro-warning')).toContainText('Филиал, врач и свободное время подтверждаются');
 
       await page.keyboard.press('Escape');
       await expect(dialog).not.toHaveAttribute('open', '');

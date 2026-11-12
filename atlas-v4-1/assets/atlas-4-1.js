@@ -98,13 +98,13 @@
     const branches = {
       ispanskie: {
         label: 'Испанские кварталы',
-        online: false,
-        notice: 'Онлайн-ссылка филиала не подтверждена. Используйте телефон или мессенджер.',
+        online: true,
+        notice: 'Общая официальная страница DentalPRO. Филиал, врач и свободное время подтверждаются во внешней системе.',
       },
       prokshino: {
         label: 'Прокшино',
         online: true,
-        notice: 'Проверка DentalPRO вернула «Токен не найден». Свободные окна подтвердите во внешней системе или по телефону.',
+        notice: 'Официальная страница DentalPRO. Филиал, врач и свободное время подтверждаются во внешней системе.',
       },
     };
     const defaultBranch = branches[branch] ? branch : 'prokshino';
@@ -164,11 +164,9 @@
       const description = [...card.querySelectorAll('p:not(.choice-kicker)')].find((node) => !node.matches('[data-atlas-dentalpro-warning]'));
       const link = card.querySelector('[data-atlas-dentalpro-link]')
         || card.querySelector('a[href*="online-zapis"], a[href*="dental-pro"], a.button');
-      if (kicker) kicker.textContent = config.online ? 'ОНЛАЙН · ФИЛИАЛ ПРОКШИНО' : 'ОНЛАЙН · НЕ ПОДТВЕРЖДЕНО';
-      if (heading) heading.textContent = config.online ? 'DentalPRO · Прокшино' : 'Онлайн-запись Испанских кварталов';
-      if (description) description.textContent = config.online
-        ? 'Официальная страница записи филиала Прокшино. Врач, услуга и время подтверждаются во внешней системе.'
-        : 'Онлайн-ссылка для Испанских кварталов не подтверждена. Используйте телефон или мессенджер.';
+      if (kicker) kicker.textContent = 'ОНЛАЙН · DENTALPRO';
+      if (heading) heading.textContent = `DentalPRO · ${config.label}`;
+      if (description) description.textContent = 'Официальная страница общей системы записи. Филиал, врач, услуга и время подтверждаются во внешней системе.';
       let warning = card.querySelector('[data-atlas-dentalpro-warning]');
       if (!warning) {
         warning = document.createElement('p');
@@ -181,25 +179,14 @@
       card.classList.toggle('is-unavailable', !config.online);
       if (link) {
         link.dataset.atlasDentalproLink = 'true';
-        if (config.online) {
-          link.href = 'https://dantist-prokshino.ru/online-zapis/';
-          link.target = '_blank';
-          link.rel = 'noopener noreferrer';
-          link.textContent = 'Открыть страницу DentalPRO · Прокшино ↗';
-          link.removeAttribute('aria-disabled');
-          link.removeAttribute('tabindex');
-          link.classList.remove('button-light');
-          link.classList.add('button-primary');
-        } else {
-          link.removeAttribute('href');
-          link.removeAttribute('target');
-          link.removeAttribute('rel');
-          link.setAttribute('aria-disabled', 'true');
-          link.setAttribute('tabindex', '-1');
-          link.classList.remove('button-primary');
-          link.classList.add('button-light');
-          link.textContent = 'Онлайн-ссылка филиала не подтверждена';
-        }
+        link.href = 'https://dantist-prokshino.ru/online-zapis/';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = `Открыть DentalPRO · ${config.label} ↗`;
+        link.removeAttribute('aria-disabled');
+        link.removeAttribute('tabindex');
+        link.classList.remove('button-light');
+        link.classList.add('button-primary');
       }
     }
 
@@ -255,19 +242,35 @@
   }
 
   function exposeUnavailableStates() {
-    const page = body.dataset.page;
-    if (page === 'contacts' && branch === 'ispanskie') {
-      const notice = document.querySelector('.dialog-notice-branch, .booking-card p');
-      if (notice && !notice.dataset.atlasV4Checked) {
-        notice.dataset.atlasV4Checked = 'true';
-        notice.insertAdjacentText('afterbegin', 'Важно: ');
-      }
-    }
     document.querySelectorAll('img').forEach((image) => {
       image.addEventListener('error', () => {
         image.closest('figure, .selected-procedure-image, .doctor-photo-link')?.classList.add('is-unavailable');
         image.setAttribute('aria-label', 'Изображение временно недоступно');
       }, { once: true });
+    });
+  }
+
+  function normalizeSharedDentalProLinks() {
+    if (!branch) return;
+    document.querySelectorAll('a[href*="dantist-prokshino.ru/online-zapis"]').forEach((link) => {
+      if (link.closest('[data-booking-dialog]')) return;
+      link.textContent = `Открыть DentalPRO · ${branchName} ↗`;
+    });
+    if (branch !== 'ispanskie') return;
+    const copy = [
+      ['Для записи именно в Испанские кварталы используйте телефон. Официальная ссылка сайта на онлайн-запись сейчас ведёт в филиал Прокшино.', 'Для записи используйте единый телефон или официальную страницу DentalPRO. Нужный филиал выбирается и подтверждается во внешней системе.'],
+      ['Официальная ссылка сейчас открывает филиал Прокшино. Для записи в Испанские кварталы используйте телефон.', 'Одна официальная страница записи доступна для обоих филиалов. Выберите нужный филиал, врача и время уже во внешней системе.'],
+      ['Для филиала Испанские кварталы подтверждён телефонный канал. Онлайн-ссылка открывает филиал Прокшино.', 'Телефон и общая официальная страница DentalPRO доступны для обоих филиалов. Нужный филиал выберите во внешней системе.'],
+      ['Выбранный на этой странице филиал не передаётся в DentalPRO. Если вам нужен приём в Испанских кварталах, позвоните в регистратуру.', 'Официальная страница записи открывает общую систему. Выберите Испанские кварталы, врача и время уже в DentalPRO.'],
+      ['Свободные окна в расписании филиала Прокшино.', 'Свободные окна и назначение врача подтверждаются в общей внешней системе.'],
+      ['DentalPRO · филиал Прокшино', 'DentalPRO · общий вход'],
+      ['DentalPRO · Прокшино', 'DentalPRO · общий вход'],
+      ['Онлайн-записьна Прокшино.', 'Онлайн-запись в нужный филиал.'],
+    ];
+    document.querySelectorAll('p, h2, h3').forEach((node) => {
+      for (const [from, to] of copy) {
+        if (node.textContent.includes(from)) node.textContent = node.textContent.replace(from, to);
+      }
     });
   }
 
@@ -356,6 +359,7 @@
     addBookingBranchFlow();
     rememberBookingContext();
     exposeUnavailableStates();
+    normalizeSharedDentalProLinks();
     addResponsiveBookingActions();
     refineCarouselControls();
     addPremiumHomeSignals();
