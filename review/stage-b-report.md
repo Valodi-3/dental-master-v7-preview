@@ -29,7 +29,7 @@
 - [390, первый экран](refs/maisondental-390.png) · [390, full page](refs/maisondental-390-full.png)
 - [1440, первый экран](refs/maisondental-1440.png) · [1440, full page](refs/maisondental-1440-full.png)
 
-На кадрах Maison Dental закрыт только Cookiebot-баннер через штатную кнопку `Deny`, чтобы измерить и показать сам интерфейс. Это не меняло сайт.
+На итоговых кадрах Maison Dental закрыт Cookiebot-баннер через штатную кнопку `Deny`, чтобы измерить и показать сам интерфейс; первоначальный запуск подтвердил наличие баннера. Это не меняло сайт.
 
 ### Grand Street Dental
 
