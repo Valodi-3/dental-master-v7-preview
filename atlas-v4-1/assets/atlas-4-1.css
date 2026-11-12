@@ -245,9 +245,6 @@ body[data-atlas-version="4-1"] .welcome-photo { margin: 0; }
 body[data-atlas-version="4-1"] .photo-frame-wrap { position: relative; padding: 0 0 18px 18px; }
 body[data-atlas-version="4-1"] .photo-frame-wrap::before { position: absolute; inset: 24px 0 0 0; border: 1px solid rgba(184, 220, 183, .56); content: ""; }
 body[data-atlas-version="4-1"] .welcome-photo img { position: relative; display: block; width: 100%; max-height: 590px; aspect-ratio: 1.06; object-fit: cover; filter: saturate(.86); }
-body[data-atlas-version="4-1"] .photo-floating-badge { position: absolute; right: 22px; bottom: 0; max-width: 240px; padding: 14px 16px; color: #f5fff7; background: rgba(13,33,27,.86); border-left: 2px solid var(--gold); }
-body[data-atlas-version="4-1"] .floating-badge-title { display: block; color: #bfe4c7; font-size: .66rem; letter-spacing: .12em; }
-body[data-atlas-version="4-1"] .floating-badge-sub { display: block; margin-top: 4px; font-family: var(--serif); font-size: 1.1rem; line-height: 1.05; }
 
 body[data-atlas-version="4-1"] .section-shell { padding-block: clamp(64px, 8vw, 112px); border-top: 1px solid var(--line); background: var(--paper); }
 body[data-atlas-version="4-1"] .section-shell:nth-of-type(even) { background: var(--paper-deep); }
@@ -264,7 +261,7 @@ body[data-atlas-version="4-1"] .gallery-grid { gap: 14px; }
 body[data-atlas-version="4-1"] .gallery-photo { border-radius: 0; background: var(--dark-soft); }
 body[data-atlas-version="4-1"] .gallery-photo img { height: 330px; filter: saturate(.88); }
 body[data-atlas-version="4-1"] .gallery-photo:first-child { transform: translateY(20px); }
-body[data-atlas-version="4-1"] .gallery-photo figcaption { padding: 45px 16px 14px; font-size: .72rem; }
+body[data-atlas-version="4-1"] .gallery-photo figcaption { padding: 10px 0 0; font-size: .72rem; }
 body[data-atlas-version="4-1"] .doctor-carousel-card,
 body[data-atlas-version="4-1"] .doctor-profile-card,
 body[data-atlas-version="4-1"] .contact-card,
@@ -291,7 +288,6 @@ body[data-atlas-version="4-1"] .doctor-carousel-track { display: flex; flex-flow
 body[data-atlas-version="4-1"] .doctor-carousel-card { flex: 0 0 clamp(280px, 31vw, 360px); display: flex; flex-direction: column; overflow: hidden; scroll-snap-align: start; }
 body[data-atlas-version="4-1"] .doctor-card-photo { position: relative; display: block; width: 100%; aspect-ratio: 4 / 4.6; overflow: hidden; background: var(--paper-deep); }
 body[data-atlas-version="4-1"] .doctor-card-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-body[data-atlas-version="4-1"] .doctor-card-photo > span { position: absolute; top: 12px; left: 12px; padding: 4px 9px; color: #f3faf5; background: rgba(13,33,27,.82); font-size: .67rem; letter-spacing: .08em; }
 body[data-atlas-version="4-1"] .doctor-card-copy { display: flex; flex: 1 1 auto; flex-direction: column; gap: 10px; padding: 19px 20px 22px; background: var(--white); }
 body[data-atlas-version="4-1"] .doctor-card-role { margin: 0; color: var(--accent); font-size: .68rem; font-weight: 750; letter-spacing: .08em; line-height: 1.35; text-transform: uppercase; }
 body[data-atlas-version="4-1"] .doctor-card-copy h3 { margin: 0; font-size: 1.25rem; }
@@ -409,9 +405,9 @@ body[data-atlas-version="4-1"] .atlas-4-1-header-booking { display: inline-flex;
   body[data-atlas-version="4-1"] .booking-choice .button { width: 100%; margin-top: 10px; }
   body[data-atlas-version="4-1"] .booking-card { grid-column: auto; }
   body[data-atlas-version="4-1"] .booking-fab { display: none; }
-  body[data-atlas-version="4-1"] .atlas-4-1-mobile-actions { position: fixed; z-index: 70; right: 0; bottom: 0; left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px max(12px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-right)); background: rgba(13,33,27,.96); box-shadow: 0 -10px 30px rgba(7,24,17,.22); }
+  body[data-atlas-version="4-1"] .atlas-4-1-mobile-actions { position: static; z-index: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: min(var(--shell), calc(100% - 30px)); margin: 18px auto 0; padding: 8px max(12px, env(safe-area-inset-left)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-right)); background: rgba(13,33,27,.96); box-shadow: 0 10px 30px rgba(7,24,17,.14); }
   body[data-atlas-version="4-1"] .atlas-4-1-mobile-actions .button { width: 100%; min-height: 48px; }
-  body[data-atlas-version="4-1"] main { padding-bottom: 76px; }
+  body[data-atlas-version="4-1"] main { padding-bottom: 0; }
 }
 
 /*
@@ -581,16 +577,6 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-photo img {
   box-shadow: 0 28px 72px rgba(0, 0, 0, .24);
   filter: saturate(.82) contrast(1.04);
 }
-body[data-atlas-version="4-1"].atlas-4-1-refined .photo-floating-badge {
-  right: 24px;
-  bottom: 0;
-  max-width: 260px;
-  padding: 14px 17px;
-  border-left: 2px solid var(--gold);
-  background: rgba(11, 34, 27, .91);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, .19);
-}
-
 body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-proof-strip {
   position: relative;
   z-index: 2;
@@ -727,9 +713,6 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-online { backgr
   body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-details { display: grid; gap: 7px; margin-top: 18px; font-size: .67rem; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .photo-frame-wrap { padding: 0 0 12px 10px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-photo img { aspect-ratio: 1.18; max-height: 360px; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .photo-floating-badge { right: 10px; padding: 10px 12px; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .floating-badge-title { font-size: .55rem; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .floating-badge-sub { font-size: .92rem; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-proof-grid { width: calc(100% - 30px); padding-block: 13px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-proof-item { grid-template-columns: 1fr; gap: 4px; min-height: 56px; padding-inline: 10px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-proof-item strong { font-size: 1.7rem; }
@@ -742,10 +725,9 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .booking-choice-online { backgr
   body[data-atlas-version="4-1"].atlas-4-1-refined .selected-procedure-copy h3 { font-size: 1.48rem; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section { margin-inline: 0; padding-inline: 15px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog { width: calc(100% - 20px); max-width: none; max-height: calc(100dvh - 24px); margin: 12px auto; border-radius: 18px; overflow: auto; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined:has(dialog[open]) .atlas-4-1-mobile-actions { display: none; }
   body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctor .doctor-detail-copy { padding-bottom: 86px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .section-shell { padding-bottom: 132px; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined main { padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
+  body[data-atlas-version="4-1"].atlas-4-1-refined main { padding-bottom: 0; }
 }
 
 /* Image direction correction: the photograph is the subject, not a floating card. */
@@ -763,15 +745,6 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-photo img {
   box-shadow: none;
   filter: saturate(.9) contrast(1.03);
 }
-body[data-atlas-version="4-1"].atlas-4-1-refined .photo-floating-badge {
-  right: 16px;
-  bottom: 16px;
-  max-width: min(290px, calc(100% - 32px));
-  border-left: 0;
-  border-top: 2px solid var(--gold);
-  background: rgba(11, 34, 27, .86);
-  box-shadow: none;
-}
 body[data-atlas-version="4-1"].atlas-4-1-refined .subpage-hero-grid figure,
 body[data-atlas-version="4-1"].atlas-4-1-refined .service-hero-image,
 body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-detail-photo {
@@ -785,7 +758,6 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .service-hero-image img { filte
 
 @media (max-width: 680px) {
   body[data-atlas-version="4-1"].atlas-4-1-refined .welcome-photo img { aspect-ratio: 1.18; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .photo-floating-badge { right: 10px; bottom: 10px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .subpage-hero-grid figure,
   body[data-atlas-version="4-1"].atlas-4-1-refined .service-hero-image,
   body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-detail-photo { border-radius: 4px; }
@@ -887,6 +859,10 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .doctor-carousel-footer {
 }
 
 body[data-atlas-version="4-1"].atlas-4-1-refined .gallery-photo figcaption {
+  position: static;
+  padding-top: 10px;
+  color: var(--ink-muted);
+  background: transparent;
   font-size: .82rem;
   line-height: 1.35;
 }
@@ -1047,6 +1023,7 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .footer-contact span {
   }
 
   body[data-atlas-version="4-1"].atlas-4-1-refined .gallery-photo figcaption {
+    padding-top: 8px;
     font-size: .78rem;
   }
 
@@ -1127,8 +1104,5 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .atlas-4-1-contact-section .tex
     scroll-margin-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
   }
 
-  body[data-atlas-version="4-1"].atlas-4-1-refined .gallery-photo figcaption {
-    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-  }
 }
 

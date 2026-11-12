@@ -138,7 +138,9 @@
     actions.className = 'atlas-4-1-mobile-actions';
     actions.innerHTML = '<button type="button" class="button button-primary" data-open-booking>Записаться</button>'
       + `<a class="button button-secondary" href="${contactHref}">Связаться</a>`;
-    document.body.appendChild(actions);
+    const footer = document.querySelector('.v2-footer');
+    if (footer) footer.before(actions);
+    else document.body.appendChild(actions);
   }
 
   function refineCarouselControls() {

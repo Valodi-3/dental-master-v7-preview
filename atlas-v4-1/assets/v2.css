@@ -139,8 +139,6 @@ button { color: inherit; }
 .selected-procedure-image { position: relative; min-height: 100%; background: #dde5df; overflow: hidden; }
 .selected-procedure-image img { width: 100%; height: 100%; min-height: 440px; object-fit: cover; transition: opacity .25s ease, transform .5s ease; }
 .selected-procedure-image.is-changing img { opacity: .25; transform: scale(1.025); }
-.image-mark { position: absolute; left: 17px; bottom: 17px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.48); border-radius: 2px 12px 2px 12px; color: #fff; background: rgba(23, 45, 40, .64); font-size: .68rem; backdrop-filter: blur(6px); }
-.image-mark i { padding-inline: 5px; color: #c7ddd1; }
 .selected-procedure-copy { align-self: center; min-width: 0; padding: clamp(24px, 3vw, 38px); }
 .selected-procedure-copy h3 { margin: 13px 0 12px; font-family: var(--serif); font-size: clamp(1.5rem, 2.2vw, 2.2rem); font-weight: 520; letter-spacing: -.035em; line-height: 1.08; }
 .selected-procedure-copy > p:not(.eyebrow) { color: #65716c; font-size: .9rem; }
@@ -170,7 +168,7 @@ button { color: inherit; }
 .gallery-photo { position: relative; min-width: 0; margin: 0; overflow: hidden; border-radius: 4px 22px 4px 22px; background: #dfe6df; }
 .gallery-photo img { width: 100%; height: 275px; object-fit: cover; transition: transform .6s ease; }
 .gallery-photo:hover img { transform: scale(1.035); }
-.gallery-photo figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 28px 14px 12px; color: #fff; background: linear-gradient(transparent, rgba(15, 33, 28, .75)); font-size: .72rem; }
+.gallery-photo figcaption { position: static; padding: 10px 0 0; color: var(--muted); background: transparent; font-size: .72rem; line-height: 1.45; }
 .clinic-ispanskie .gallery-photo, .clinic-ispanskie .service-hero-image { border-radius: 80px 80px 10px 10px; }
 
 .contact-band { display: grid; grid-template-columns: 1fr minmax(270px, .62fr); align-items: center; gap: 35px; margin-block: 72px; padding: clamp(28px, 5vw, 62px); border-radius: var(--radius); color: #eaf1eb; background: #203a35; }
@@ -209,7 +207,6 @@ button { color: inherit; }
 .branch-card-image img { width: 100%; aspect-ratio: 1.45; object-fit: cover; transition: transform .5s ease; }
 .branch-card-image:hover img { transform: scale(1.03); }
 .branch-card-ispanskie .branch-card-image img { aspect-ratio: 1.5; }
-.branch-card-index { position: absolute; right: 14px; bottom: 14px; padding: 7px 10px; border: 1px solid rgba(255,255,255,.55); border-radius: 3px 10px; color: #fff; background: rgba(23, 46, 42, .55); font-size: .64rem; letter-spacing: .12em; }
 .branch-card-copy { padding: 24px 26px 28px; }
 .branch-card-copy h2 { margin: 8px 0; font-family: var(--serif); font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500; letter-spacing: -.04em; }
 .branch-card-copy > p:not(.eyebrow) { max-width: 490px; color: var(--muted); }
@@ -251,7 +248,7 @@ button { color: inherit; }
 .service-hero-copy h1 { max-width: 720px; font-size: clamp(2.6rem, 5.2vw, 4.9rem); }
 .service-hero-image { position: relative; margin: 0; overflow: hidden; border-radius: 4px 58px 4px 58px; background: #dfe7e1; }
 .service-hero-image img { width: 100%; aspect-ratio: 1.18; object-fit: cover; }
-.service-hero-image figcaption { position: absolute; right: 12px; bottom: 11px; padding: 6px 9px; color: #fff; background: rgba(18,40,35,.62); border-radius: 3px 10px; font-size: .68rem; }
+.service-hero-image figcaption { position: static; padding: 10px 0 0; color: var(--muted); background: transparent; font-size: .68rem; line-height: 1.45; }
 .category-orthodontics .service-hero-image { border-radius: 140px 12px; }
 .category-hygiene .service-hero-image { border-radius: 50% 50% 8px 8px; }
 .category-diagnostics .service-hero-image { border-radius: 5px; }
@@ -287,7 +284,6 @@ button { color: inherit; }
 .doctor-photo-link { position: relative; min-height: 280px; overflow: hidden; background: #e3e9e3; }
 .doctor-photo-link img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; transition: transform .45s ease; }
 .doctor-photo-link:hover img { transform: scale(1.035); }
-.doctor-photo-link .section-index { position: absolute; bottom: 10px; left: 10px; padding: 7px 8px; border-radius: 2px 9px; color: #fff; background: rgba(17,38,31,.62); }
 .doctor-profile-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 22px; }
 .doctor-profile-copy h2 { margin: 0 0 7px; font-family: var(--serif); font-size: clamp(1.2rem, 1.9vw, 1.8rem); font-weight: 550; line-height: 1.08; }
 .doctor-profile-copy h2 a { text-decoration: none; }
@@ -302,7 +298,7 @@ button { color: inherit; }
 .doctor-detail-photo { position: relative; margin: 0; overflow: hidden; border-radius: 4px 45px 4px 45px; background: var(--branch-tint); }
 .doctor-detail-photo img { width: 100%; aspect-ratio: .9; object-fit: cover; object-position: center 18%; }
 .clinic-ispanskie .doctor-detail-photo { border-radius: 200px 200px 12px 12px; }
-.doctor-detail-photo figcaption { position: absolute; right: 12px; bottom: 12px; left: 12px; padding: 8px; border-radius: 3px 10px; color: #fff; background: rgba(23,43,38,.66); font-size: .7rem; }
+.doctor-detail-photo figcaption { position: static; padding: 10px 0 0; color: var(--muted); background: transparent; font-size: .7rem; line-height: 1.45; }
 .doctor-detail-copy h1 { margin-top: 12px; font-size: clamp(2.4rem, 5vw, 4.7rem); }
 .doctor-role-large { max-width: 600px; color: var(--muted); font-size: clamp(1rem, 1.8vw, 1.3rem); }
 .experience-stamp { display: flex; align-items: center; gap: 15px; max-width: max-content; margin-block: 23px; padding: 12px 15px; border: 1px solid color-mix(in srgb,var(--accent) 28%, transparent); border-radius: 3px 16px 3px 16px; background: var(--accent-soft); }
@@ -550,7 +546,7 @@ button { color: inherit; }
   .gallery-photo:first-child { grid-column: 1 / -1; }
   .gallery-photo img { height: 180px; }
   .gallery-photo:first-child img { height: 215px; }
-  .gallery-photo figcaption { padding: 20px 9px 8px; font-size: .64rem; }
+  .gallery-photo figcaption { padding: 8px 0 0; font-size: .64rem; }
   .contact-band { grid-template-columns: 1fr; gap: 18px; margin-block: 42px 0; padding: 25px 18px; border-radius: 4px 20px; }
   .contact-band h2 { font-size: 2.55rem; }
   .contact-band-actions { width: 100%; }
@@ -734,12 +730,8 @@ button { color: inherit; }
 .home-hero-clinical .home-hero-image { position: relative; min-width: 0; margin: 0; padding: 14px 0 20px 16px; }
 .home-hero-clinical .home-hero-image::before { top: -3px; right: -15px; bottom: 3px; left: 29px; z-index: 0; border: 1px solid rgba(188,216,198,.65); border-radius: 4px 70px 4px 4px; opacity: 1; }
 .home-hero-clinical .home-hero-image img { position: relative; z-index: 1; width: 100%; aspect-ratio: 1.03; border: 1px solid rgba(255,255,255,.18); border-radius: 4px 58px 4px 4px; box-shadow: 0 28px 70px rgba(0,0,0,.22); object-fit: cover; }
-.home-hero-clinical .home-hero-image figcaption { position: absolute; z-index: 2; right: 14px; bottom: 34px; left: 29px; padding: 42px 16px 13px; color: #fff; background: linear-gradient(transparent,rgba(13,32,28,.72)); font-size: .75rem; letter-spacing: .09em; }
-.hero-photo-note { position: absolute; z-index: 3; left: -16px; bottom: 91px; display: flex; align-items: center; gap: 12px; padding: 14px 17px; border: 1px solid rgba(28,58,48,.12); border-radius: 4px 18px 4px 18px; color: #20332d; background: #f5f3e9; box-shadow: 0 14px 35px rgba(0,0,0,.17); }
-.hero-photo-number { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; color: #fff; background: var(--leaf); font-family: var(--serif); font-size: 1rem; }
-.hero-photo-note > span:last-child { display: grid; gap: 2px; }
-.hero-photo-note b { font-size: .9rem; }
-.hero-photo-note small { color: #66736d; font-size: .78rem; }
+.home-hero-clinical .home-hero-image figcaption,
+.home-hero-family .home-hero-image figcaption { position: static; padding: 10px 0 0; color: inherit; background: transparent; font-size: .72rem; letter-spacing: 0; line-height: 1.45; }
 
 .home-hero-family { position: relative; overflow: hidden; padding-block: clamp(42px, 6vw, 78px); background: linear-gradient(107deg,#f5eee5 0%,#f5eee5 55%,#ecddcc 55%,#ecddcc 100%); }
 .home-hero-family .home-hero-inner { display: grid; grid-template-columns: minmax(0,.91fr) minmax(0,1.09fr); align-items: center; gap: clamp(34px,6vw,78px); }
@@ -822,11 +814,6 @@ button { color: inherit; }
   .home-hero-clinical .home-hero-image { width: calc(100% - 8px); padding: 0 0 11px 8px; }
   .home-hero-clinical .home-hero-image::before { top: 10px; right: -6px; bottom: 0; left: 13px; border-radius: 3px 30px 3px 3px; }
   .home-hero-clinical .home-hero-image img { aspect-ratio: 1.26; border-radius: 3px 24px 3px 3px; }
-  .home-hero-clinical .home-hero-image figcaption { right: 8px; bottom: 20px; left: 14px; padding: 34px 10px 9px; font-size: .68rem; }
-  .hero-photo-note { left: 7px; bottom: 66px; gap: 8px; padding: 9px 11px; border-radius: 3px 13px; }
-  .hero-photo-number { width: 30px; height: 30px; font-size: .85rem; }
-  .hero-photo-note b { font-size: .8rem; }
-  .hero-photo-note small { font-size: .72rem; }
   .home-hero-family { padding-block: 29px 35px; }
   .home-hero-family .home-hero-inner { gap: 16px; }
   .home-hero-family h1 { margin: 14px 0 12px; font-size: clamp(2.7rem,10.7vw,3.7rem); line-height: .99; }
@@ -867,7 +854,7 @@ button { color: inherit; }
   .clinic-ispanskie .gallery-photo:first-child { grid-column: 1; grid-row: 1 / span 2; }
   .clinic-ispanskie .gallery-photo:first-child img { height: 295px; min-height: 295px; }
   .clinic-ispanskie .gallery-photo:not(:first-child) img { height: 143px; }
-  .clinic-ispanskie .gallery-photo figcaption { padding: 22px 8px 8px; font-size: .68rem; }
+  .clinic-ispanskie .gallery-photo figcaption { padding: 8px 0 0; font-size: .68rem; }
   .clinic-ispanskie .contact-band { margin-top: 35px; padding: 25px 18px; border-radius: 37px 8px 8px; }
 }
 
@@ -921,10 +908,6 @@ button { color: inherit; }
   box-shadow: 0 0 0 8px rgba(222,200,143,.055); content: ""; pointer-events: none;
 }
 .home-hero-clinical .home-hero-image img { transform-style: preserve-3d; box-shadow: 0 32px 82px rgba(1,17,14,.34), 0 1px 0 rgba(255,255,255,.15) inset; transition: transform .75s cubic-bezier(.2,.78,.22,1), box-shadow .75s ease; }
-.home-hero-clinical .home-hero-image figcaption { color: #f8f1dc; }
-.hero-photo-note { border-color: rgba(223,202,148,.6); color: #f6f2e6; background: rgba(11,40,34,.86); box-shadow: 0 18px 48px rgba(0,0,0,.25); backdrop-filter: blur(12px); transform: translateZ(24px); }
-.hero-photo-number { color: #183a31; background: var(--champagne); }
-.hero-photo-note small { color: #d8dfd2; }
 
 .home-hero-family {
   background:
@@ -951,7 +934,6 @@ button { color: inherit; }
 
 @media (hover: hover) and (pointer: fine) {
   .home-hero-clinical .home-hero-image:hover img { transform: rotateY(-5deg) rotateX(1.6deg) translateZ(14px) scale(1.012); box-shadow: 0 42px 94px rgba(1,17,14,.4); }
-  .home-hero-clinical .home-hero-image:hover .hero-photo-note { transform: translate3d(-3px,-4px,32px); }
   .family-photo-main:hover { transform: rotateY(-3deg) rotateX(1.5deg) translateZ(14px); box-shadow: 0 38px 88px rgba(66,49,35,.24) !important; }
   .family-photo-inset:hover { transform: rotateY(4deg) translateZ(24px) translateY(-5px); }
   .gallery-photo:hover { transform: perspective(900px) rotateX(1.2deg) translateY(-3px); }
@@ -985,7 +967,6 @@ button { color: inherit; }
     linear-gradient(158deg,#092e29 0%,#123e35 63%,#0b302b 100%); }
   .home-hero-clinical .home-hero-inner { padding-block: 30px 29px; }
   .home-hero-clinical .home-hero-image::after { top: -6px; right: 23px; width: 42px; height: 42px; }
-  .home-hero-clinical .hero-photo-note { border-color: rgba(223,202,148,.53); }
   .home-hero-family { background: linear-gradient(160deg,#f2ede3 0%,#f2ede3 66%,#e8dac7 66%,#e8dac7 100%); }
   .family-photo-main, .family-photo-inset { transform: none; }
   .booking-dialog[open] { position: fixed; inset: auto 0 0; width: 100%; max-width: none; max-height: min(91dvh, 820px); margin: 0; border-right: 0; border-bottom: 0; border-left: 0; border-radius: 25px 25px 0 0; }
@@ -1007,7 +988,7 @@ button { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
   .booking-dialog[open], .booking-dialog::backdrop { animation: none !important; }
-  .home-hero-clinical .home-hero-image img, .hero-photo-note, .family-photo-main, .family-photo-inset { transform: none !important; }
+  .home-hero-clinical .home-hero-image img, .family-photo-main, .family-photo-inset { transform: none !important; }
 }
 
 
