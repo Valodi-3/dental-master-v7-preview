@@ -59,6 +59,26 @@ for (const viewport of VIEWPORTS) {
       expect(closeBounds.label, JSON.stringify(closeBounds)).toBe('Закрыть окно');
 
       if (viewport.width === 390) {
+        const flowBounds = await dialog.evaluate((node) => {
+          const select = (selector) => {
+            const element = node.querySelector(selector);
+            const rect = element?.getBoundingClientRect();
+            return rect ? { top: rect.top, bottom: rect.bottom } : null;
+          };
+          return {
+            branch: select('.atlas-4-1-booking-branch-step'),
+            service: select('.atlas-4-1-booking-service-step'),
+            channel: select('.atlas-4-1-booking-channel-label'),
+            methods: select('.booking-choice-grid'),
+            buttonFont: Number.parseFloat(getComputedStyle(node.querySelector('.booking-choice-call a.button')).fontSize),
+            bodyFont: Number.parseFloat(getComputedStyle(node.querySelector('.booking-choice-online p')).fontSize),
+          };
+        });
+        expect(flowBounds.branch && flowBounds.service && flowBounds.branch.bottom <= flowBounds.service.top, JSON.stringify(flowBounds)).toBeTruthy();
+        expect(flowBounds.service && flowBounds.channel && flowBounds.service.bottom <= flowBounds.channel.top, JSON.stringify(flowBounds)).toBeTruthy();
+        expect(flowBounds.channel && flowBounds.methods && flowBounds.channel.bottom <= flowBounds.methods.top, JSON.stringify(flowBounds)).toBeTruthy();
+        expect(flowBounds.buttonFont, JSON.stringify(flowBounds)).toBeGreaterThanOrEqual(14);
+        expect(flowBounds.bodyFont, JSON.stringify(flowBounds)).toBeGreaterThanOrEqual(16);
         const actionBounds = await Promise.all([
           dialog.locator('.booking-choice-call a.button').evaluate((node) => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }),
           dialog.locator('.booking-choice-online a.button').evaluate((node) => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }),
@@ -77,7 +97,7 @@ for (const viewport of VIEWPORTS) {
       await expect(dialog.locator('.booking-choice-online')).not.toHaveClass(/is-unavailable/);
       await expect(dialog.locator('.booking-choice-online a[href*="dantist-prokshino.ru\/online-zapis"]')).toBeVisible();
       await expect(dialog.locator('.booking-choice-online a[aria-disabled="true"]')).toHaveCount(0);
-      await expect(dialog.locator('.atlas-4-1-dentalpro-warning')).toContainText('Филиал, врач и свободное время подтверждаются');
+      await expect(dialog.locator('.atlas-4-1-dentalpro-warning')).toContainText('Врач и время');
 
       await page.keyboard.press('Escape');
       await expect(dialog).not.toHaveAttribute('open', '');

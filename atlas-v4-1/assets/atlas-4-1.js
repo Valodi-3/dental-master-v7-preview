@@ -84,7 +84,7 @@
     const context = document.createElement('div');
     context.className = 'atlas-4-1-booking-context booking-data-note';
     context.setAttribute('role', 'status');
-    context.innerHTML = `<strong>Контекст: ${branchName}</strong><span data-atlas-4-1-service-context>Услуга будет показана только для ориентира.</span>`;
+    context.innerHTML = `<strong>Контекст: ${branchName}</strong><span data-atlas-4-1-service-context>Услуга — ориентир.</span>`;
     const anchor = dialog.querySelector('[data-booking-service]') || dialog.querySelector('.booking-dialog-inner')?.firstElementChild || dialog.firstElementChild;
     const parent = anchor?.parentElement || dialog;
     parent.insertBefore(context, anchor || null);
@@ -99,12 +99,12 @@
       ispanskie: {
         label: 'Испанские кварталы',
         online: true,
-        notice: 'Общая официальная страница DentalPRO. Филиал, врач и свободное время подтверждаются во внешней системе.',
+        notice: 'Врач и время — в DentalPRO.',
       },
       prokshino: {
         label: 'Прокшино',
         online: true,
-        notice: 'Официальная страница DentalPRO. Филиал, врач и свободное время подтверждаются во внешней системе.',
+        notice: 'Врач и время — в DentalPRO.',
       },
     };
     const defaultBranch = branches[branch] ? branch : 'prokshino';
@@ -113,7 +113,7 @@
     const branchStep = document.createElement('section');
     branchStep.className = 'atlas-4-1-booking-branch-step';
     branchStep.setAttribute('aria-labelledby', 'atlas-booking-branch-title');
-    branchStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 1 · ФИЛИАЛ</span><h3 id="atlas-booking-branch-title">Выберите филиал</h3></div>'
+    branchStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 1 · ФИЛИАЛ</span><h3 id="atlas-booking-branch-title">Филиал</h3></div>'
       + '<div class="atlas-4-1-booking-branch-options" role="group" aria-label="Филиал записи">'
       + '<button type="button" class="atlas-4-1-booking-branch-option" data-booking-branch="ispanskie" aria-pressed="false">Испанские кварталы</button>'
       + '<button type="button" class="atlas-4-1-booking-branch-option" data-booking-branch="prokshino" aria-pressed="false">Прокшино</button>'
@@ -125,11 +125,11 @@
     const serviceStep = document.createElement('section');
     serviceStep.className = 'atlas-4-1-booking-service-step';
     serviceStep.setAttribute('aria-labelledby', 'atlas-booking-service-title');
-    serviceStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 2 · УСЛУГА</span><h3 id="atlas-booking-service-title">Проверьте направление</h3></div>'
-      + '<p class="atlas-4-1-booking-service-empty" data-booking-service-empty>Услуга не выбрана. Выберите позицию в каталоге или укажите её во внешней системе.</p>';
+    serviceStep.innerHTML = '<div class="atlas-4-1-booking-step-heading"><span class="choice-kicker">ШАГ 2 · УСЛУГА</span><h3 id="atlas-booking-service-title">Услуга</h3></div>'
+      + '<p class="atlas-4-1-booking-service-empty" data-booking-service-empty>Услуга не выбрана. Выберите её в каталоге или в DentalPRO.</p>';
     if (serviceSummary) serviceStep.append(serviceSummary);
     if (serviceNote) {
-      serviceNote.textContent = 'Услуга показана для ориентира; окончательные этапы и стоимость обсуждаются с врачом.';
+      serviceNote.textContent = 'Этапы и стоимость — в DentalPRO.';
       serviceStep.append(serviceNote);
     }
 
@@ -147,6 +147,10 @@
     const onlineCards = [...dialog.querySelectorAll('.booking-choice-online')];
     const branchNotice = dialog.querySelector('.dialog-notice-branch');
     const selectedContext = dialog.querySelector('.atlas-4-1-booking-context');
+    const summaryLabel = summary?.querySelector('span');
+    if (summaryLabel) summaryLabel.textContent = 'Услуга:';
+    const callHeading = dialog.querySelector('.booking-choice-call h2, .booking-choice-call h3');
+    if (callHeading) callHeading.textContent = 'Позвонить';
 
     function serviceIsSelected() {
       return Boolean(summary && !summary.hidden && summary.textContent.trim());
@@ -165,8 +169,8 @@
       const link = card.querySelector('[data-atlas-dentalpro-link]')
         || card.querySelector('a[href*="online-zapis"], a[href*="dental-pro"], a.button');
       if (kicker) kicker.textContent = 'ОНЛАЙН · DENTALPRO';
-      if (heading) heading.textContent = `DentalPRO · ${config.label}`;
-      if (description) description.textContent = 'Выберите филиал, врача и время во внешней системе DentalPRO.';
+      if (heading) heading.textContent = 'DentalPRO';
+      if (description) description.textContent = 'Выберите филиал и время.';
       let warning = card.querySelector('[data-atlas-dentalpro-warning]');
       if (!warning) {
         warning = document.createElement('p');
@@ -201,7 +205,8 @@
         if (active && focusButton) button.focus({ preventScroll: true });
       });
       const config = branches[selectedBranch];
-      if (branchStatus) branchStatus.textContent = `Выбран филиал: ${config.label}.`;
+      if (branchStatus) branchStatus.textContent = `Выбрано: ${config.label}.`;
+      if (title) title.textContent = 'Способ записи';
       if (branchNotice) branchNotice.textContent = `Важно: ${config.notice}`;
       if (selectedContext) {
         const contextStrong = selectedContext.querySelector('strong');
@@ -237,7 +242,7 @@
       const serviceId = trigger.dataset.serviceId || '';
       try { sessionStorage.setItem('atlas-4-1-booking-context', JSON.stringify({ branch, serviceId })); } catch (_) { /* private mode */ }
       const context = document.querySelector('[data-atlas-4-1-service-context]');
-      if (context) context.textContent = serviceId ? 'Услуга сохранена как ориентир; врач и свободное время подтверждаются во внешней системе.' : 'Услуга будет выбрана во внешней системе записи.';
+      if (context) context.textContent = serviceId ? 'Услуга — ориентир.' : 'Выберите услугу в каталоге или DentalPRO.';
     }, true);
   }
 

@@ -237,6 +237,7 @@
       const service = serviceById.get(target.dataset.serviceId || '');
       if (service && summary && serviceName && serviceAmount && serviceNote) {
         serviceName.textContent = service.name;
+        serviceName.title = service.name;
         serviceAmount.textContent = `Позиция в прайсе: ${servicePrice(service)}`;
         summary.hidden = false;
         serviceNote.hidden = false;

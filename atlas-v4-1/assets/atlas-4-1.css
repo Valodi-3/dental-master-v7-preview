@@ -2018,6 +2018,26 @@ body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-card-pri
   color: #eaf6ed;
 }
 
+/* Final acceptance pass: keep secondary-page heroes and the booking choices compact. */
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero {
+  padding-block: 16px 24px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero .subpage-title-row,
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctors .subpage-hero .subpage-title-row {
+  min-height: 0;
+  align-items: center;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit {
+  width: clamp(96px, 10vw, 120px);
+  margin-top: 0;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctors .subpage-hero {
+  padding-block: 18px 30px;
+}
+body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctors .doctors-directory {
+  padding-top: 24px;
+}
+
 @media (max-width: 680px) {
   body[data-atlas-version="4-1"].atlas-4-1-refined.page-booking .subpage-hero {
     padding-block: 18px 24px;
@@ -2057,11 +2077,37 @@ body[data-atlas-version="4-1"].atlas-4-1-refined.page-contacts .contact-card-pri
     font-size: .58rem;
   }
   body[data-atlas-version="4-1"].atlas-4-1-refined.page-doctors .doctors-directory {
-    padding-top: 32px;
+    padding-top: 24px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .prices-hero {
+    padding-block: 12px 18px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit {
+    width: 64px;
+    margin-top: 4px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined.page-prices .catalog-count-orbit strong {
+    font-size: 1.35rem;
   }
 }
 
-/* Final booking access pass: close control and early mobile actions. */
+@media (max-width: 360px) {
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .button {
+    text-transform: none;
+    letter-spacing: .01em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-call p {
+    white-space: normal;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-online .button {
+    text-transform: none;
+    letter-spacing: .01em;
+  }
+}
+
+/* Final booking access pass: close control, readable mobile type, and ordered steps. */
 body[data-atlas-version="4-1"].atlas-4-1-refined .dialog-close {
   display: inline-grid;
   width: 48px;
@@ -2103,20 +2149,20 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .dialog-close:focus-visible {
     font-size: 1.9rem;
   }
 
-  /* Keep the real actions in the first viewport; the optional service context follows. */
+  /* Keep the patient flow explicit: branch -> service -> booking method. */
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] {
     display: flex;
     flex-direction: column;
   }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .atlas-4-1-booking-branch-step { order: 1; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .atlas-4-1-booking-channel-label { order: 2; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > h2 { order: 3; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .booking-choice-grid { order: 4; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .dialog-notice-branch { order: 5; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .atlas-4-1-booking-service-step { order: 6; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .atlas-4-1-booking-service-step { order: 2; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .atlas-4-1-booking-channel-label { order: 3; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > h2 { order: 4; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .booking-choice-grid { order: 5; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .dialog-notice-branch { order: 6; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .booking-messengers-row { order: 7; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog [data-booking-step="choices"] > .booking-data-note { order: 8; }
-  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-channel-label { margin-top: 14px; }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-channel-label { margin-top: 10px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .dialog-notice-branch { margin-top: 7px; }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2140,27 +2186,123 @@ body[data-atlas-version="4-1"].atlas-4-1-refined .dialog-close:focus-visible {
     font-size: .7rem;
     line-height: 1.3;
   }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-branch-step,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step {
+    margin-top: 8px;
+    padding: 9px 10px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-context {
+    margin-top: 6px;
+    padding-block: 6px;
+    line-height: 1.2;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-step-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-step-heading h3 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step:not(.has-selection) {
+    padding-block: 8px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step .booking-service {
+    margin-top: 5px;
+    padding: 7px 9px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 6px;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step .booking-service > span:last-child {
+    margin-left: auto;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step .booking-service strong {
+    flex: 1 0 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step .booking-explainer {
+    margin-top: 5px;
+    font-size: .875rem;
+    line-height: 1.25;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-branch-option {
+    min-height: 44px;
+    padding: 7px 6px;
+    font-size: 1rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice p,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-branch-status,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-empty,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step .booking-explainer,
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .dialog-notice-branch {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-call p {
+    font-size: .875rem;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .choice-number {
-    font-size: .78rem;
+    font-size: .875rem;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .atlas-4-1-booking-service-step .booking-service strong {
+    font-size: .875rem;
+    line-height: 1.25;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .choice-number {
+    font-size: .875rem;
   }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .booking-card-actions {
     width: 100%;
     min-width: 0;
-    margin-top: auto;
+    margin-top: 8px;
     padding-top: 4px;
+    order: 2;
   }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .button {
     width: 100%;
     min-height: 48px;
     padding-inline: 7px;
-    font-size: .68rem;
+    font-size: .875rem;
     line-height: 1.15;
     text-align: center;
   }
   body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-online .button {
     max-width: 100%;
-    font-size: .62rem;
+    font-size: .875rem;
     white-space: normal;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .atlas-4-1-dentalpro-warning {
+    order: 3;
+    margin-top: 6px;
+    font-size: .875rem;
+    line-height: 1.25;
+  }
+}
+
+@media (max-width: 360px) {
+  /* Preserve the two-column first-action layout without orphaned letters. */
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice .button {
+    text-transform: none;
+    letter-spacing: .01em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-call p {
+    white-space: normal;
+  }
+  body[data-atlas-version="4-1"].atlas-4-1-refined .booking-dialog .booking-choice-online .button {
+    text-transform: none;
+    letter-spacing: .01em;
   }
 }
 
