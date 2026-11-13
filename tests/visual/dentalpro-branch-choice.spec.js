@@ -50,6 +50,25 @@ for (const viewport of VIEWPORTS) {
       expect(initialState.scrollWidth, JSON.stringify(initialState)).toBeLessThanOrEqual(initialState.viewportWidth);
       expect(initialState.fakeSlots, JSON.stringify(initialState)).toBe(0);
 
+      const closeBounds = await dialog.locator('[data-close-booking]').evaluate((node) => {
+        const rect = node.getBoundingClientRect();
+        return { width: rect.width, height: rect.height, label: node.getAttribute('aria-label') };
+      });
+      expect(closeBounds.width, JSON.stringify(closeBounds)).toBeGreaterThanOrEqual(44);
+      expect(closeBounds.height, JSON.stringify(closeBounds)).toBeGreaterThanOrEqual(44);
+      expect(closeBounds.label, JSON.stringify(closeBounds)).toBe('Закрыть окно');
+
+      if (viewport.width === 390) {
+        const actionBounds = await Promise.all([
+          dialog.locator('.booking-choice-call a.button').evaluate((node) => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }),
+          dialog.locator('.booking-choice-online a.button').evaluate((node) => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; }),
+        ]);
+        for (const bounds of actionBounds) {
+          expect(bounds.top, JSON.stringify(actionBounds)).toBeGreaterThanOrEqual(0);
+          expect(bounds.bottom, JSON.stringify(actionBounds)).toBeLessThanOrEqual(viewport.height);
+        }
+      }
+
       const otherBranch = entry.branch === 'ispanskie' ? 'prokshino' : 'ispanskie';
       await dialog.locator('[data-booking-branch="' + otherBranch + '"]').click();
       await expect(dialog.locator('[data-booking-branch="' + otherBranch + '"]')).toHaveAttribute('aria-pressed', 'true');

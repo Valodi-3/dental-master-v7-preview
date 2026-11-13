@@ -166,7 +166,7 @@
         || card.querySelector('a[href*="online-zapis"], a[href*="dental-pro"], a.button');
       if (kicker) kicker.textContent = 'ОНЛАЙН · DENTALPRO';
       if (heading) heading.textContent = `DentalPRO · ${config.label}`;
-      if (description) description.textContent = 'Официальная страница общей системы записи. Филиал, врач, услуга и время подтверждаются во внешней системе.';
+      if (description) description.textContent = 'Выберите филиал, врача и время во внешней системе DentalPRO.';
       let warning = card.querySelector('[data-atlas-dentalpro-warning]');
       if (!warning) {
         warning = document.createElement('p');
@@ -182,7 +182,7 @@
         link.href = 'https://dantist-prokshino.ru/online-zapis/';
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        link.textContent = `Открыть DentalPRO · ${config.label} ↗`;
+        link.textContent = 'Открыть DentalPRO ↗';
         link.removeAttribute('aria-disabled');
         link.removeAttribute('tabindex');
         link.classList.remove('button-light');
@@ -254,23 +254,7 @@
     if (!branch) return;
     document.querySelectorAll('a[href*="dantist-prokshino.ru/online-zapis"]').forEach((link) => {
       if (link.closest('[data-booking-dialog]')) return;
-      link.textContent = `Открыть DentalPRO · ${branchName} ↗`;
-    });
-    if (branch !== 'ispanskie') return;
-    const copy = [
-      ['Для записи именно в Испанские кварталы используйте телефон. Официальная ссылка сайта на онлайн-запись сейчас ведёт в филиал Прокшино.', 'Для записи используйте единый телефон или официальную страницу DentalPRO. Нужный филиал выбирается и подтверждается во внешней системе.'],
-      ['Официальная ссылка сейчас открывает филиал Прокшино. Для записи в Испанские кварталы используйте телефон.', 'Одна официальная страница записи доступна для обоих филиалов. Выберите нужный филиал, врача и время уже во внешней системе.'],
-      ['Для филиала Испанские кварталы подтверждён телефонный канал. Онлайн-ссылка открывает филиал Прокшино.', 'Телефон и общая официальная страница DentalPRO доступны для обоих филиалов. Нужный филиал выберите во внешней системе.'],
-      ['Выбранный на этой странице филиал не передаётся в DentalPRO. Если вам нужен приём в Испанских кварталах, позвоните в регистратуру.', 'Официальная страница записи открывает общую систему. Выберите Испанские кварталы, врача и время уже в DentalPRO.'],
-      ['Свободные окна в расписании филиала Прокшино.', 'Свободные окна и назначение врача подтверждаются в общей внешней системе.'],
-      ['DentalPRO · филиал Прокшино', 'DentalPRO · общий вход'],
-      ['DentalPRO · Прокшино', 'DentalPRO · общий вход'],
-      ['Онлайн-записьна Прокшино.', 'Онлайн-запись в нужный филиал.'],
-    ];
-    document.querySelectorAll('p, h2, h3').forEach((node) => {
-      for (const [from, to] of copy) {
-        if (node.textContent.includes(from)) node.textContent = node.textContent.replace(from, to);
-      }
+      link.textContent = 'Открыть DentalPRO ↗';
     });
   }
 
